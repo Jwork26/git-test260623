@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>불나방 Dashboard</title>
+    <title>반도체 양대산맥 주가 현황판</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,12 +106,14 @@
             letter-spacing: -0.5px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
-        .logo-section h1::before {
-            content: '⚡';
-            font-size: 1.6rem;
+        .logo-svg {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.45));
         }
 
         .logo-section p {
@@ -651,7 +653,43 @@
     <!-- Header -->
     <header>
         <div class="logo-section">
-            <h1>⚡ SemiTracker</h1>
+            <h1>
+                <!-- Custom SVG Logo: Cute Moth flying towards Wafer / Chip campfire with Lightning Bolt (요구사항) -->
+                <svg class="logo-svg" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#3b82f6" />
+                            <stop offset="100%" stop-color="#f97316" />
+                        </linearGradient>
+                        <linearGradient id="wingGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.85"/>
+                            <stop offset="100%" stop-color="var(--color-up)" stop-opacity="0.15"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Wafer circular background -->
+                    <circle cx="16" cy="16" r="14" fill="rgba(19, 27, 46, 0.7)" stroke="url(#logoGrad)" stroke-width="1.5"/>
+                    <!-- Wafer Grid lines (subtle chip structure) -->
+                    <path d="M 6 16 L 26 16 M 16 6 L 16 26 M 11 8 L 11 24 M 21 8 L 21 24 M 8 11 L 24 11 M 8 21 L 24 21" stroke="rgba(165, 180, 252, 0.18)" stroke-width="0.8"/>
+                    
+                    <!-- Cute Moth Wings (Left/Right) -->
+                    <path d="M 15 16 C 11 13, 6 15, 7 20 C 8 24, 13 22, 15 19 Z" fill="url(#wingGrad)" stroke="var(--color-up)" stroke-width="0.8"/>
+                    <path d="M 17 16 C 21 13, 26 15, 25 20 C 24 24, 19 22, 17 19 Z" fill="url(#wingGrad)" stroke="var(--color-up)" stroke-width="0.8"/>
+                    
+                    <!-- Microchip design details on Wings -->
+                    <rect x="9" y="17" width="2" height="2" rx="0.5" fill="#facc15" stroke="var(--border-color)" stroke-width="0.3"/>
+                    <rect x="21" y="17" width="2" height="2" rx="0.5" fill="#facc15" stroke="var(--border-color)" stroke-width="0.3"/>
+                    
+                    <!-- Moth Body -->
+                    <rect x="14.5" y="13" width="3" height="9" rx="1.5" fill="#f8fafc"/>
+                    
+                    <!-- Antennae -->
+                    <path d="M 15 13 Q 13 10, 11 11 M 17 13 Q 19 10, 21 11" fill="none" stroke="#f8fafc" stroke-width="0.8" stroke-linecap="round"/>
+                    
+                    <!-- Lightning Bolt (Merged Harmoniously in the center-top) -->
+                    <path d="M 16 3 L 19 8 L 16.5 8 L 18 13 L 13.5 10 L 15.5 10 Z" fill="#facc15" stroke="#090d16" stroke-width="0.5"/>
+                </svg>
+                SemiTracker
+            </h1>
             <p>대한민국 반도체 대장주 실시간 시세 분석</p>
         </div>
         <div class="controls">
@@ -695,7 +733,6 @@
             </div>
 
             <div class="price-section">
-                <!-- 수신 시세 기준 시간 (요구사항) -->
                 <span class="update-time" id="secUpdateTime">- 기준</span>
                 <div class="current-price-row">
                     <span class="price-val" id="secPrice">340,500</span>
@@ -757,7 +794,6 @@
             </div>
 
             <div class="price-section">
-                <!-- 수신 시세 기준 시간 (요구사항) -->
                 <span class="update-time" id="hynixUpdateTime">- 기준</span>
                 <div class="current-price-row">
                     <span class="price-val" id="hynixPrice">2,580,000</span>
@@ -1121,7 +1157,7 @@
                     // Update Price Value
                     stock.elementPrice.textContent = formatCurrency(stock.current);
                     
-                    // Update data-received timestamp right above price (요구사항)
+                    // Update data-received timestamp right above price
                     stock.elementUpdateTime.textContent = `${timeStr} 기준`;
 
                     // Update badge styles & text
