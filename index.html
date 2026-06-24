@@ -74,7 +74,7 @@
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(255, 77, 109, 0.03) 0%, transparent 45%);
-            padding: 2rem 1rem;
+            padding: 1rem; /* Reduced padding */
         }
 
         .container {
@@ -82,7 +82,7 @@
             max-width: 1100px;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1rem; /* Reduced gap */
         }
 
         /* Header Styles */
@@ -91,14 +91,14 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1.5rem;
+            padding-bottom: 1rem; /* Reduced padding */
             flex-wrap: wrap;
             gap: 1rem;
         }
 
         .logo-section h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem; /* Slightly smaller logo text */
             font-weight: 800;
             background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
             -webkit-background-clip: text;
@@ -110,25 +110,25 @@
         }
 
         .logo-svg {
-            width: 38px;
-            height: 38px;
+            width: 32px; /* Slightly smaller logo */
+            height: 32px;
             flex-shrink: 0;
             filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.45));
         }
 
         .logo-section p {
-            font-size: 0.9rem;
+            font-size: 0.82rem; /* Smaller text */
             color: var(--text-secondary);
-            margin-top: 0.25rem;
+            margin-top: 0.15rem;
         }
 
         .time-badge {
             font-family: 'Outfit', 'Inter', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.8rem; /* Smaller badge */
             color: #a5b4fc;
             background: rgba(99, 102, 241, 0.1);
             border: 1px solid rgba(99, 102, 241, 0.25);
-            padding: 0.4rem 0.8rem;
+            padding: 0.3rem 0.6rem;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -146,9 +146,9 @@
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 1rem; /* Reduced padding */
             border-radius: 12px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             cursor: pointer;
             display: flex;
@@ -179,7 +179,7 @@
             align-items: center;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 0.3rem;
+            padding: 0.2rem;
             border-radius: 12px;
             position: relative;
         }
@@ -188,9 +188,9 @@
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            padding: 0.4rem 0.8rem;
+            padding: 0.35rem 0.7rem;
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition-smooth);
@@ -203,12 +203,12 @@
 
         .switch-bg {
             position: absolute;
-            height: calc(100% - 0.6rem);
-            width: calc(50% - 0.3rem);
+            height: calc(100% - 0.4rem);
+            width: calc(50% - 0.2rem);
             background: var(--border-color);
             border-radius: 8px;
-            top: 0.3rem;
-            left: 0.3rem;
+            top: 0.2rem;
+            left: 0.2rem;
             transition: var(--transition-smooth);
             z-index: 1;
         }
@@ -220,11 +220,11 @@
         /* Dashboard Grid Layout */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
+            gap: 1rem; /* Reduced gap */
         }
 
-        @media (max-width: 580px) {
+        @media (max-width: 900px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
@@ -234,14 +234,14 @@
         .stock-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 2rem;
+            border-radius: 16px; /* Reduced border radius */
+            padding: 1.25rem; /* Reduced padding */
             position: relative;
             overflow: hidden;
             transition: var(--transition-smooth);
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 0.75rem; /* Reduced gap */
         }
 
         .stock-card:hover {
@@ -396,7 +396,7 @@
 
         /* Dynamic SVG Chart (Axis layout) */
         .chart-container {
-            height: 140px;
+            height: 110px; /* Reduced from 140px */
             width: 100%;
             margin: 0.5rem 0;
             position: relative;
@@ -775,7 +775,7 @@
                 <div class="chart-loading" id="secChartLoading" style="display: none;">네이버 시세 불러오는 중...</div>
                 
                 <!-- 10m Chart SVG -->
-                <svg class="sparkline sparkline-glow" id="secSparkline" viewBox="0 0 340 140">
+                <svg class="sparkline sparkline-glow" id="secSparkline" viewBox="0 0 340 110">
                     <defs>
                         <linearGradient id="secAreaGrad" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.25"/>
@@ -784,16 +784,16 @@
                     </defs>
                     <!-- Y Axis Labels -->
                     <text class="axis-text" id="secYMax" x="50" y="15" text-anchor="end">340k</text>
-                    <text class="axis-text" id="secYMid" x="50" y="65" text-anchor="end">325k</text>
-                    <text class="axis-text" id="secYMin" x="50" y="115" text-anchor="end">310k</text>
+                    <text class="axis-text" id="secYMid" x="50" y="50" text-anchor="end">325k</text>
+                    <text class="axis-text" id="secYMin" x="50" y="88" text-anchor="end">310k</text>
                     <!-- Grid Lines -->
                     <line class="axis-line" x1="55" y1="12" x2="330" y2="12"></line>
-                    <line class="axis-line" x1="55" y1="62" x2="330" y2="62"></line>
-                    <line class="axis-line" x1="55" y1="112" x2="330" y2="112"></line>
+                    <line class="axis-line" x1="55" y1="49" x2="330" y2="49"></line>
+                    <line class="axis-line" x1="55" y1="87" x2="330" y2="87"></line>
                     <!-- X Axis Labels -->
-                    <text class="axis-text" x="55" y="132" text-anchor="start">09:00</text>
-                    <text class="axis-text" x="192" y="132" text-anchor="middle">12:00</text>
-                    <text class="axis-text" x="330" y="132" text-anchor="end">15:30</text>
+                    <text class="axis-text" x="55" y="104" text-anchor="start">09:00</text>
+                    <text class="axis-text" x="192" y="104" text-anchor="middle">12:00</text>
+                    <text class="axis-text" x="330" y="104" text-anchor="end">15:30</text>
                     <!-- Line & Area Paths -->
                     <path class="area" id="secAreaPath" fill="url(#secAreaGrad)" d=""></path>
                     <path class="line" id="secLinePath" stroke="var(--color-up)" d=""></path>
@@ -836,7 +836,7 @@
                 <div class="chart-loading" id="hynixChartLoading" style="display: none;">네이버 시세 불러오는 중...</div>
                 
                 <!-- 10m Chart SVG -->
-                <svg class="sparkline sparkline-glow" id="hynixSparkline" viewBox="0 0 340 140">
+                <svg class="sparkline sparkline-glow" id="hynixSparkline" viewBox="0 0 340 110">
                     <defs>
                         <linearGradient id="hynixAreaGrad" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.25"/>
@@ -845,16 +845,16 @@
                     </defs>
                     <!-- Y Axis Labels -->
                     <text class="axis-text" id="hynixYMax" x="50" y="15" text-anchor="end">2.7m</text>
-                    <text class="axis-text" id="hynixYMid" x="50" y="65" text-anchor="end">2.5m</text>
-                    <text class="axis-text" id="hynixYMin" x="50" y="115" text-anchor="end">2.4m</text>
+                    <text class="axis-text" id="hynixYMid" x="50" y="50" text-anchor="end">2.5m</text>
+                    <text class="axis-text" id="hynixYMin" x="50" y="88" text-anchor="end">2.4m</text>
                     <!-- Grid Lines -->
                     <line class="axis-line" x1="55" y1="12" x2="330" y2="12"></line>
-                    <line class="axis-line" x1="55" y1="62" x2="330" y2="62"></line>
-                    <line class="axis-line" x1="55" y1="112" x2="330" y2="112"></line>
+                    <line class="axis-line" x1="55" y1="49" x2="330" y2="49"></line>
+                    <line class="axis-line" x1="55" y1="87" x2="330" y2="87"></line>
                     <!-- X Axis Labels -->
-                    <text class="axis-text" x="55" y="132" text-anchor="start">09:00</text>
-                    <text class="axis-text" x="192" y="132" text-anchor="middle">12:00</text>
-                    <text class="axis-text" x="330" y="132" text-anchor="end">15:30</text>
+                    <text class="axis-text" x="55" y="104" text-anchor="start">09:00</text>
+                    <text class="axis-text" x="192" y="104" text-anchor="middle">12:00</text>
+                    <text class="axis-text" x="330" y="104" text-anchor="end">15:30</text>
                     <!-- Line & Area Paths -->
                     <path class="area" id="hynixAreaPath" fill="url(#hynixAreaGrad)" d=""></path>
                     <path class="line" id="hynixLinePath" stroke="var(--color-up)" d=""></path>
@@ -862,6 +862,128 @@
 
                 <!-- Daily Closing Text List -->
                 <div class="daily-text-container" id="hynixDailyText" style="display: none;">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 마이크론 테크놀로지 CARD -->
+        <div class="stock-card" style="--card-accent: #06b6d4;">
+            <div class="card-header">
+                <div class="company-info">
+                    <span class="ticker-badge">MU · NASDAQ</span>
+                    <span class="company-name">마이크론 테크놀로지</span>
+                </div>
+                <div class="chart-tab-container">
+                    <button class="chart-tab-btn active" id="muTab10m" onclick="switchChartTab('mu', '10m')">10분 차트</button>
+                    <button class="chart-tab-btn" id="muTabDaily" onclick="switchChartTab('mu', 'daily')">일별 종가</button>
+                </div>
+            </div>
+
+            <div class="price-section">
+                <span class="update-time" id="muUpdateTime">- 기준</span>
+                <div class="current-price-row">
+                    <span class="price-val" id="muPrice">1,051.77</span>
+                    <span class="price-unit">USD</span>
+                </div>
+                <div class="price-change-badge down" id="muChangeBadge">
+                    <span id="muChangeArrow">▼</span>
+                    <span id="muChangeVal">159.61 (-13.18%)</span>
+                </div>
+            </div>
+
+            <!-- Sparkline Chart & Daily Close Container -->
+            <div class="chart-container">
+                <div class="chart-loading" id="muChartLoading" style="display: none;">야후 파이낸스 불러오는 중...</div>
+                
+                <!-- 10m Chart SVG -->
+                <svg class="sparkline sparkline-glow" id="muSparkline" viewBox="0 0 340 110">
+                    <defs>
+                        <linearGradient id="muAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.25"/>
+                            <stop offset="100%" stop-color="var(--color-up)" stop-opacity="0.0"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Y Axis Labels -->
+                    <text class="axis-text" id="muYMax" x="50" y="15" text-anchor="end">1.1k</text>
+                    <text class="axis-text" id="muYMid" x="50" y="50" text-anchor="end">1.0k</text>
+                    <text class="axis-text" id="muYMin" x="50" y="88" text-anchor="end">0.9k</text>
+                    <!-- Grid Lines -->
+                    <line class="axis-line" x1="55" y1="12" x2="330" y2="12"></line>
+                    <line class="axis-line" x1="55" y1="49" x2="330" y2="49"></line>
+                    <line class="axis-line" x1="55" y1="87" x2="330" y2="87"></line>
+                    <!-- X Axis Labels -->
+                    <text class="axis-text" x="55" y="104" text-anchor="start">09:30</text>
+                    <text class="axis-text" x="192" y="104" text-anchor="middle">13:00</text>
+                    <text class="axis-text" x="330" y="104" text-anchor="end">16:00 (현지)</text>
+                    <!-- Line & Area Paths -->
+                    <path class="area" id="muAreaPath" fill="url(#muAreaGrad)" d=""></path>
+                    <path class="line" id="muLinePath" stroke="var(--color-up)" d=""></path>
+                </svg>
+
+                <!-- Daily Closing Text List -->
+                <div class="daily-text-container" id="muDailyText" style="display: none;">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 샌디스크 CARD -->
+        <div class="stock-card" style="--card-accent: #10b981;">
+            <div class="card-header">
+                <div class="company-info">
+                    <span class="ticker-badge">SNDK · NASDAQ</span>
+                    <span class="company-name">샌디스크</span>
+                </div>
+                <div class="chart-tab-container">
+                    <button class="chart-tab-btn active" id="sndkTab10m" onclick="switchChartTab('sndk', '10m')">10분 차트</button>
+                    <button class="chart-tab-btn" id="sndkTabDaily" onclick="switchChartTab('sndk', 'daily')">일별 종가</button>
+                </div>
+            </div>
+
+            <div class="price-section">
+                <span class="update-time" id="sndkUpdateTime">- 기준</span>
+                <div class="current-price-row">
+                    <span class="price-val" id="sndkPrice">1,963.60</span>
+                    <span class="price-unit">USD</span>
+                </div>
+                <div class="price-change-badge down" id="sndkChangeBadge">
+                    <span id="sndkChangeArrow">▼</span>
+                    <span id="sndkChangeVal">310.13 (-13.64%)</span>
+                </div>
+            </div>
+
+            <!-- Sparkline Chart & Daily Close Container -->
+            <div class="chart-container">
+                <div class="chart-loading" id="sndkChartLoading" style="display: none;">야후 파이낸스 불러오는 중...</div>
+                
+                <!-- 10m Chart SVG -->
+                <svg class="sparkline sparkline-glow" id="sndkSparkline" viewBox="0 0 340 110">
+                    <defs>
+                        <linearGradient id="sndkAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.25"/>
+                            <stop offset="100%" stop-color="var(--color-up)" stop-opacity="0.0"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Y Axis Labels -->
+                    <text class="axis-text" id="sndkYMax" x="50" y="15" text-anchor="end">2.0k</text>
+                    <text class="axis-text" id="sndkYMid" x="50" y="50" text-anchor="end">1.9k</text>
+                    <text class="axis-text" id="sndkYMin" x="50" y="88" text-anchor="end">1.8k</text>
+                    <!-- Grid Lines -->
+                    <line class="axis-line" x1="55" y1="12" x2="330" y2="12"></line>
+                    <line class="axis-line" x1="55" y1="49" x2="330" y2="49"></line>
+                    <line class="axis-line" x1="55" y1="87" x2="330" y2="87"></line>
+                    <!-- X Axis Labels -->
+                    <text class="axis-text" x="55" y="104" text-anchor="start">09:30</text>
+                    <text class="axis-text" x="192" y="104" text-anchor="middle">13:00</text>
+                    <text class="axis-text" x="330" y="104" text-anchor="end">16:00 (현지)</text>
+                    <!-- Line & Area Paths -->
+                    <path class="area" id="sndkAreaPath" fill="url(#sndkAreaGrad)" d=""></path>
+                    <path class="line" id="sndkLinePath" stroke="var(--color-up)" d=""></path>
+                </svg>
+
+                <!-- Daily Closing Text List -->
+                <div class="daily-text-container" id="sndkDailyText" style="display: none;">
                     <!-- Dynamically populated -->
                 </div>
             </div>
@@ -880,39 +1002,27 @@
                     📰 뉴스 기사 분석 요약
                 </div>
                 <ul class="analysis-bullets">
-                    <li>금리 인상 경계감에 따른 시장 불안: 미 연준(Fed)의 추가 금리 인상 발언 및 고물가 우려로 반도체 기술주 중심의 강력한 조정 압력 발생<span class="source-tag">출처: 경제지 종합</span></li>
-                    <li>MSCI 선진지수 불확실성 및 기술적 과열: 급등에 따른 차익 실현 욕구와 수급 충격으로 단기 하락폭 심화<span class="source-tag">출처: 연합뉴스 보도</span></li>
-                    <li>자사주 매입 및 HBM 펀더멘털 견고: 삼성전자의 90조 원 규모 자사주 매입 기대감과 SK하이닉스의 HBM 공급 부족 사이클 유지로 강한 매수 지지 형성<span class="source-tag">출처: 증권가 리포트</span></li>
-                    <li>HBM 수요 강세와 차세대 미세 공정 경쟁: 엔비디아향 HBM3E 공급 본격화 및 파운드리 미세 공정 수율 향상 소식이 성장 모멘텀 유지 방증<span class="source-tag">출처: 테크 전문 뉴스</span></li>
+                    <li>미 연준 금리 및 인플레 경계와 반도체 기술주 조정: 미국 거시경제 불확실성에 따른 글로벌 기술주의 전반적인 조정 압력 발생<span class="source-tag">출처: Bloomberg 보도</span></li>
+                    <li>마이크론 테크놀로지 실적 가이던스 발표 및 수급 전망: AI 서버용 HBM 및 고용량 메모리 매출 고성장세 유지 전망<span class="source-tag">출처: Yahoo Finance</span></li>
+                    <li>샌디스크 고성능 SSD 라인업 리프레시 및 독립 상장 모멘텀: 스핀오프 이후 독립 브랜드 가치 제고와 메모리 단가 안정성 확보<span class="source-tag">출처: Bloomberg Tech</span></li>
+                    <li>글로벌 D램 감산 효과 지속과 설비투자 경쟁 가속화: 주요 메모리 3사의 차세대 공정 믹스 전환 가속화에 따른 시장 안정화 기대감<span class="source-tag">출처: Yahoo Finance IT</span></li>
                 </ul>
             </div>
 
             <!-- 네이버 주식 토론방 분석 -->
             <div class="analysis-box">
                 <div class="analysis-box-header board">
-                    💬 네이버 주식 토론방 분석 요약
+                    💬 커뮤니티 분석 요약
                 </div>
                 <ul class="analysis-bullets">
-                    <li>삼성전자 토론방 (code=005930): 폭락장에서 패닉 매도한 주주들의 뒤늦은 후회와 허탈감 대거 분출. 성과급의 자사주 지급 합의 소식과 90조 자사주 매입 루머를 호재로 기대하는 여론 급부상<span class="source-tag">출처: 삼성전자 종목토론실</span></li>
-                    <li>SK하이닉스 토론방 (code=000660): 시총 1위 달성 직후 12% 급락과 24일 반등에 "롤러코스터 무빙에 정신이 없다"는 피로감 표출. 목표주가 420만 원 상향 정보 공유와 장기 투자를 촉구하는 장투파와 단기 차익 실현파 대립<span class="source-tag">출처: SK하이닉스 종목토론실</span></li>
-                    <li>실적 턴어라운드 및 반도체 봄날 기대: 2분기 영업이익 어닝 서프라이즈 전망을 공유하며 장기 투자를 독려하는 찬성파의 매수 공세<span class="source-tag">출처: 네이버 종목토론방</span></li>
-                    <li>외인 및 기관 수급 동향 논쟁: 외국인들의 집중 매도세에 맞서는 개인의 매수 전략과 기관의 방수 형태에 대한 성토 지속<span class="source-tag">출처: 증권 커뮤니티</span></li>
+                    <li>마이크론 스레드 (@micron): 단기 메모리 단가 변동에 민감한 서브레딧 개미들의 목표주가 논쟁 및 레버리지 위험성 경고<span class="source-tag">출처: Reddit @micron</span></li>
+                    <li>샌디스크 스레드 (@sandisk): 독립 법인 상장 후 첫 분기 실적에 대한 기대감과 플래시 메모리 점유율 유지 전략 지지 여론 형성<span class="source-tag">출처: Reddit @sandisk</span></li>
+                    <li>종합 주식 커뮤니티 (@stock): 삼성, 하이닉스, 마이크론, 샌디스크 등 4대 글로벌 메모리 공급망 재편 및 가치 평가 분석 스레드 인기<span class="source-tag">출처: Reddit @stock</span></li>
+                    <li>글로벌 기관 매수 포지션 추적: 대형 테크 커뮤니티 내 포트폴리오 분석을 통한 반도체 비중 조절 및 저가 매수 시점 논의 활발<span class="source-tag">출처: Reddit @stock</span></li>
                 </ul>
             </div>
 
             <!-- SNS 및 커뮤니티 분석 -->
-            <div class="analysis-box">
-                <div class="analysis-box-header sns">
-                    📱 SNS 및 커뮤니티 분석 요약
-                </div>
-                <ul class="analysis-bullets">
-                    <li>'삼전닉스' 커플링 밈(Meme): 두 종목이 시총 1위 자리를 두고 엎치락뒤치락하며 동반 폭등락을 이어가자 '삼전닉스 왕좌의 게임' 등 냉소 섞인 풍자 밈 공유<span class="source-tag">출처: 네이버 카페/블로그</span></li>
-                    <li>'줍줍' 저점 매수 인증 릴레이: 주가 폭락을 절호의 매수 기회로 삼은 소위 '개미'들이 최저점 매수(줍줍) 인증을 공유하며 반도체 성장 모멘텀 신뢰 여론 형성<span class="source-tag">출처: X/트위터</span></li>
-                    <li>파생 상품 리스크 경고: 반도체 1배수/레버리지 ETF 등 고위험 파생 상품의 강제 청산(반대매매) 우려가 현실화됨에 따라 무리한 빚투 경계 목소리 확산<span class="source-tag">출처: 재테크 인플루언서 피드</span></li>
-                    <li>HBM 기술 로드맵 및 독점력 분석: SK하이닉스의 HBM 시장 독점력 지속 여부와 삼성전자의 퀄 테스트 통과 루머에 대한 심층 기술 분석 공유<span class="source-tag">출처: IT 커뮤니티</span></li>
-                </ul>
-            </div>
-
         </div>
         <!-- 세부요약 하단 데이터 획득 시각 표시 -->
         <div class="analysis-footer">
@@ -936,7 +1046,7 @@
             current: 340500,
             basePrice: 310000,
             activeTab: '10m', // '10m' or 'daily'
-            // Added more historical days (Date, Close, High, Low) to enable scrolling
+            isUS: false,
             dailyHistory: [
                 { date: "6월 15일 (월)", low: 338000, high: 345000, close: 342000, rate: 0.58 },
                 { date: "6월 16일 (화)", low: 340000, high: 348000, close: 347000, rate: 1.46 },
@@ -968,6 +1078,7 @@
             current: 2580000,
             basePrice: 2555000,
             activeTab: '10m',
+            isUS: false,
             dailyHistory: [
                 { date: "6월 15일 (월)", low: 2680000, high: 2740000, close: 2710000, rate: 0.37 },
                 { date: "6월 16일 (화)", low: 2700000, high: 2780000, close: 2755000, rate: 1.66 },
@@ -992,6 +1103,70 @@
             yMax: document.getElementById('hynixYMax'),
             yMid: document.getElementById('hynixYMid'),
             yMin: document.getElementById('hynixYMin')
+        },
+        mu: {
+            name: "마이크론 테크놀로지",
+            ticker: "MU",
+            current: 1051.77,
+            basePrice: 1211.38,
+            activeTab: '10m',
+            isUS: true,
+            dailyHistory: [
+                { date: "6월 15일 (월)", low: 1010.50, high: 1060.00, close: 1052.40, rate: 0.45 },
+                { date: "6월 16일 (화)", low: 1040.00, high: 1088.00, close: 1082.00, rate: 2.81 },
+                { date: "6월 17일 (수)", low: 1080.00, high: 1130.00, close: 1115.50, rate: 3.10 },
+                { date: "6월 18일 (목)", low: 1110.00, high: 1165.00, close: 1150.00, rate: 3.09 },
+                { date: "6월 19일 (금)", low: 1145.00, high: 1195.00, close: 1188.00, rate: 3.30 },
+                { date: "6월 22일 (월)", low: 1180.00, high: 1213.56, close: 1211.38, rate: 1.97 },
+                { date: "6월 23일 (화)", low: 1038.50, high: 1125.00, close: 1051.77, rate: -13.18 },
+                { date: "6월 24일 (수)", low: 1045.00, high: 1104.38, close: 1104.38, rate: 5.00 }
+            ],
+            minutePoints: [],
+            elementPrice: document.getElementById('muPrice'),
+            elementBadge: document.getElementById('muChangeBadge'),
+            elementArrow: document.getElementById('muChangeArrow'),
+            elementVal: document.getElementById('muChangeVal'),
+            linePath: document.getElementById('muLinePath'),
+            areaPath: document.getElementById('muAreaPath'),
+            sparkline: document.getElementById('muSparkline'),
+            loading: document.getElementById('muChartLoading'),
+            dailyText: document.getElementById('muDailyText'),
+            elementUpdateTime: document.getElementById('muUpdateTime'),
+            yMax: document.getElementById('muYMax'),
+            yMid: document.getElementById('muYMid'),
+            yMin: document.getElementById('muYMin')
+        },
+        sndk: {
+            name: "샌디스크",
+            ticker: "SNDK",
+            current: 1963.60,
+            basePrice: 2273.73,
+            activeTab: '10m',
+            isUS: true,
+            dailyHistory: [
+                { date: "6월 15일 (월)", low: 1920.00, high: 1990.00, close: 1985.00, rate: 0.76 },
+                { date: "6월 16일 (화)", low: 1970.00, high: 2050.00, close: 2040.00, rate: 2.77 },
+                { date: "6월 17일 (수)", low: 2030.00, high: 2120.00, close: 2105.00, rate: 3.19 },
+                { date: "6월 18일 (목)", low: 2100.00, high: 2210.00, close: 2185.00, rate: 3.80 },
+                { date: "6월 19일 (금)", low: 2170.00, high: 2290.00, close: 2273.73, rate: 4.06 },
+                { date: "6월 22일 (월)", low: 2240.00, high: 2354.39, close: 2273.73, rate: 0.00 },
+                { date: "6월 23일 (화)", low: 1949.96, high: 2060.00, close: 1963.60, rate: -13.64 },
+                { date: "6월 24일 (수)", low: 1960.00, high: 2037.90, close: 2037.90, rate: 3.78 }
+            ],
+            minutePoints: [],
+            elementPrice: document.getElementById('sndkPrice'),
+            elementBadge: document.getElementById('sndkChangeBadge'),
+            elementArrow: document.getElementById('sndkChangeArrow'),
+            elementVal: document.getElementById('sndkChangeVal'),
+            linePath: document.getElementById('sndkLinePath'),
+            areaPath: document.getElementById('sndkAreaPath'),
+            sparkline: document.getElementById('sndkSparkline'),
+            loading: document.getElementById('sndkChartLoading'),
+            dailyText: document.getElementById('sndkDailyText'),
+            elementUpdateTime: document.getElementById('sndkUpdateTime'),
+            yMax: document.getElementById('sndkYMax'),
+            yMid: document.getElementById('sndkYMid'),
+            yMin: document.getElementById('sndkYMin')
         }
     };
 
@@ -1031,10 +1206,15 @@
         // Re-render sparklines to ensure colors are updated correctly
         renderSparkline('sec');
         renderSparkline('hynix');
+        renderSparkline('mu');
+        renderSparkline('sndk');
     }
 
     // Format currency helper
-    function formatCurrency(value) {
+    function formatCurrency(value, isUS = false) {
+        if (isUS) {
+            return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
+        }
         return new Intl.NumberFormat('ko-KR').format(Math.round(value));
     }
 
@@ -1056,11 +1236,12 @@
             tab10m.classList.remove('active');
             tabDaily.classList.add('active');
             stock.sparkline.style.display = 'none';
-            stock.dailyText.style.display = 'flex';
+            stock.dailyText.style.display = 'block';
             renderDailyText(stockKey);
         }
     }
 
+    // Render Daily Text Details
     function renderDailyText(stockKey) {
         const stock = stockData[stockKey];
         
@@ -1087,9 +1268,9 @@
             tableHtml += `
                 <tr>
                     <td class="daily-text-date">${item.date}</td>
-                    <td class="daily-text-close ${rateClass}">${formatCurrency(item.close)}원 <span style="font-size:0.7rem; font-weight:normal; opacity:0.85;">(${rateStr})</span></td>
-                    <td class="daily-text-val">${formatCurrency(item.high)}원</td>
-                    <td class="daily-text-val">${formatCurrency(item.low)}원</td>
+                    <td class="daily-text-close ${rateClass}">${stock.isUS ? '$' : ''}${formatCurrency(item.close, stock.isUS)}${stock.isUS ? '' : '원'} <span style="font-size:0.7rem; font-weight:normal; opacity:0.85;">(${rateStr})</span></td>
+                    <td class="daily-text-val">${stock.isUS ? '$' : ''}${formatCurrency(item.high, stock.isUS)}${stock.isUS ? '' : '원'}</td>
+                    <td class="daily-text-val">${stock.isUS ? '$' : ''}${formatCurrency(item.low, stock.isUS)}${stock.isUS ? '' : '원'}</td>
                 </tr>
             `;
         });
@@ -1113,19 +1294,19 @@
         const max = Math.max(...points);
         
         // Update Y Axis Labels dynamically
-        stock.yMax.textContent = formatCurrency(max);
-        stock.yMin.textContent = formatCurrency(min);
-        stock.yMid.textContent = formatCurrency((max + min) / 2);
+        stock.yMax.textContent = (stock.isUS ? '$' : '') + formatCurrency(max, stock.isUS);
+        stock.yMin.textContent = (stock.isUS ? '$' : '') + formatCurrency(min, stock.isUS);
+        stock.yMid.textContent = (stock.isUS ? '$' : '') + formatCurrency((max + min) / 2, stock.isUS);
 
         const range = max - min === 0 ? 1 : max - min;
         
         // SVG dimensions
         const width = 340;
-        const height = 140;
+        const height = 110; // Adjusted for 1-page fit
         const paddingLeft = 55;
         const paddingRight = 10;
         const paddingTop = 12;
-        const paddingBottom = 28;
+        const paddingBottom = 22; // Adjusted for 1-page fit
         
         const chartWidth = width - paddingLeft - paddingRight;
         const chartHeight = height - paddingTop - paddingBottom;
@@ -1159,7 +1340,7 @@
         stock.linePath.setAttribute('stroke', strokeColor);
         
         // Update gradient stop color dynamically
-        const gradId = stockKey === 'sec' ? 'secAreaGrad' : 'hynixAreaGrad';
+        const gradId = stockKey + 'AreaGrad';
         const stops = document.querySelectorAll(`#${gradId} stop`);
         stops.forEach((stop) => {
             stop.setAttribute('stop-color', strokeColor);
@@ -1170,10 +1351,10 @@
         stock.sparkline.style.setProperty('--glow-color', glowColor);
     }
 
-    // Helper to generate realistic simulated minutes if Naver API fails or is empty
+    // Helper to generate realistic simulated minutes if Yahoo/Naver API fails or is empty
     function generateFallbackMinutes(stockKey) {
         const stock = stockData[stockKey];
-        const pointsCount = 40; // 09:00 to 15:30 in 10-minute intervals
+        const pointsCount = 40; 
         const startPrice = stock.basePrice;
         const endPrice = stock.current;
         
@@ -1181,10 +1362,9 @@
         for (let i = 0; i < pointsCount; i++) {
             const ratio = i / (pointsCount - 1);
             const interpolated = startPrice + (endPrice - startPrice) * ratio;
-            // Generate nice waves
             const noise = (Math.sin(ratio * Math.PI * 2.5) * (startPrice * 0.008)) + 
                           ((Math.random() - 0.5) * (startPrice * 0.003));
-            points.push(Math.round(interpolated + noise));
+            points.push(interpolated + noise);
         }
         stock.minutePoints = points;
     }
@@ -1208,22 +1388,10 @@
             }
         } catch(e) {}
 
-        // Codetabs Proxy
-        try {
-            const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`);
-            if (res.ok) return await res.json();
-        } catch(e) {}
-
-        // AllOrigins Raw backup
-        try {
-            const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
-            if (res.ok) return await res.json();
-        } catch(e) {}
-
         throw new Error("All fetching methods failed.");
     }
 
-    // Fetch real-time price & changes from Naver Realtime API
+    // Fetch real-time price & changes from Naver Realtime API (Koreans)
     async function fetchRealtimePrices() {
         const url = 'https://polling.finance.naver.com/api/realtime?query=SERVICE_ITEM:005930,000660';
         try {
@@ -1242,13 +1410,9 @@
                     stock.current = item.nv;
                     stock.basePrice = item.pcv;
 
-                    // Update Price Value
-                    stock.elementPrice.textContent = formatCurrency(stock.current);
-                    
-                    // Update data-received timestamp right above price
+                    stock.elementPrice.textContent = formatCurrency(stock.current, false);
                     stock.elementUpdateTime.textContent = `${timeStr} 기준`;
 
-                    // Update badge styles & text
                     const diff = item.cv;
                     const diffRate = item.cr;
                     const isUp = item.rf === '2' || item.rf === '3';
@@ -1256,18 +1420,17 @@
                     if (isUp) {
                         stock.elementBadge.className = "price-change-badge up";
                         stock.elementArrow.textContent = "▲";
-                        stock.elementVal.textContent = `${formatCurrency(diff)} (+${diffRate.toFixed(2)}%)`;
+                        stock.elementVal.textContent = `${formatCurrency(diff, false)} (+${diffRate.toFixed(2)}%)`;
                     } else if (item.rf === '4' || item.rf === '5') {
                         stock.elementBadge.className = "price-change-badge down";
                         stock.elementArrow.textContent = "▼";
-                        stock.elementVal.textContent = `${formatCurrency(Math.abs(diff))} (-${Math.abs(diffRate).toFixed(2)}%)`;
+                        stock.elementVal.textContent = `${formatCurrency(Math.abs(diff), false)} (-${Math.abs(diffRate).toFixed(2)}%)`;
                     } else {
                         stock.elementBadge.className = "price-change-badge flat";
                         stock.elementArrow.textContent = "─";
                         stock.elementVal.textContent = `0 (0.00%)`;
                     }
 
-                    // Sync the last element of daily close history with current live price
                     const lastHistory = stock.dailyHistory[stock.dailyHistory.length - 1];
                     lastHistory.close = stock.current;
                     lastHistory.low = item.lv;
@@ -1280,7 +1443,7 @@
         }
     }
 
-    // Fetch 10-minute/minute chart data from Naver Chart API
+    // Fetch 10-minute/minute chart data from Naver Chart API (Koreans)
     async function fetchChartData(stockKey) {
         const stock = stockData[stockKey];
         stock.loading.style.display = 'flex';
@@ -1289,11 +1452,9 @@
         try {
             const data = await fetchWithProxy(url);
             if (Array.isArray(data) && data.length > 0) {
-                // Filter the points to 10-minute intervals
                 const filtered = data.filter((item, index) => {
                     return (index % 10 === 0) || (index === data.length - 1);
                 });
-
                 stock.minutePoints = filtered.map(item => item.currentPrice);
             } else {
                 generateFallbackMinutes(stockKey);
@@ -1303,12 +1464,116 @@
             generateFallbackMinutes(stockKey);
         } finally {
             stock.loading.style.display = 'none';
-            // Redraw chart or table
             if (stock.activeTab === '10m') {
                 renderSparkline(stockKey);
             } else {
                 renderDailyText(stockKey);
             }
+        }
+    }
+
+    // Fetch Yahoo Finance API for US stocks (Micron, SanDisk)
+    async function fetchYahooFinanceData(ticker, stockKey) {
+        const stock = stockData[stockKey];
+        stock.loading.style.display = 'flex';
+        
+        // Yahoo Finance v8 chart endpoint
+        const targetUrl = `https://query2.finance.yahoo.com/v8/finance/chart/${ticker}?interval=5m&range=1d`;
+        
+        try {
+            // 1. Direct fetch (works if user has CORS bypass or browser security disabled)
+            let response = await fetch(targetUrl);
+            if (!response.ok) throw new Error("Direct fetch failed");
+            let data = await response.json();
+            parseYahooChartData(data, stockKey);
+        } catch (e) {
+            console.warn(`Direct fetch for Yahoo Finance ${ticker} failed (likely CORS), trying proxy...`, e);
+            
+            // 2. Proxy fetch
+            try {
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                let response = await fetch(proxyUrl);
+                if (response.ok) {
+                    const json = await response.json();
+                    if (json && json.contents) {
+                        const data = JSON.parse(json.contents);
+                        parseYahooChartData(data, stockKey);
+                        return;
+                    }
+                }
+                throw new Error("Proxy fetch failed");
+            } catch (proxyError) {
+                console.error(`Yahoo Finance proxy fetch failed for ${ticker}, using fallback simulation`, proxyError);
+                // 3. Simulation Fallback
+                generateFallbackMinutes(stockKey);
+                stock.current = stock.minutePoints[stock.minutePoints.length - 1];
+                updateUSStockUI(stockKey);
+            }
+        } finally {
+            stock.loading.style.display = 'none';
+        }
+    }
+
+    // Parse Yahoo Finance JSON response
+    function parseYahooChartData(data, stockKey) {
+        try {
+            const stock = stockData[stockKey];
+            const result = data.chart.result[0];
+            const meta = result.meta;
+            const quote = result.indicators.quote[0];
+            
+            stock.current = meta.regularMarketPrice;
+            stock.basePrice = meta.chartPreviousClose;
+            
+            const closePrices = quote.close.filter(p => p !== null && p !== undefined);
+            if (closePrices.length > 0) {
+                const filterInterval = Math.max(1, Math.floor(closePrices.length / 40));
+                stock.minutePoints = closePrices.filter((_, idx) => idx % filterInterval === 0);
+            } else {
+                generateFallbackMinutes(stockKey);
+            }
+            
+            updateUSStockUI(stockKey);
+        } catch(e) {
+            console.error(`Error parsing Yahoo Finance data for ${stockKey}:`, e);
+            generateFallbackMinutes(stockKey);
+            updateUSStockUI(stockKey);
+        }
+    }
+
+    // Update US Stock Card UI
+    function updateUSStockUI(stockKey) {
+        const stock = stockData[stockKey];
+        const now = new Date();
+        const timeStr = String(now.getHours()).padStart(2, '0') + ':' +
+                        String(now.getMinutes()).padStart(2, '0') + ':' +
+                        String(now.getSeconds()).padStart(2, '0');
+                        
+        stock.elementPrice.textContent = formatCurrency(stock.current, true);
+        stock.elementUpdateTime.textContent = `${timeStr} 기준`;
+        
+        const diff = stock.current - stock.basePrice;
+        const diffRate = (diff / stock.basePrice) * 100;
+        const isUp = diff >= 0;
+        
+        if (isUp) {
+            stock.elementBadge.className = "price-change-badge up";
+            stock.elementArrow.textContent = "▲";
+            stock.elementVal.textContent = `${diff.toFixed(2)} (+${diffRate.toFixed(2)}%)`;
+        } else {
+            stock.elementBadge.className = "price-change-badge down";
+            stock.elementArrow.textContent = "▼";
+            stock.elementVal.textContent = `${Math.abs(diff).toFixed(2)} (-${Math.abs(diffRate).toFixed(2)}%)`;
+        }
+        
+        const lastHistory = stock.dailyHistory[stock.dailyHistory.length - 1];
+        lastHistory.close = stock.current;
+        lastHistory.rate = diffRate;
+        
+        if (stock.activeTab === '10m') {
+            renderSparkline(stockKey);
+        } else {
+            renderDailyText(stockKey);
         }
     }
 
@@ -1333,11 +1598,13 @@
         const refreshIcon = document.getElementById('refreshIcon');
         refreshIcon.classList.add('icon-spin');
 
-        // Reload data from Naver
+        // Reload data from Naver & Yahoo
         await Promise.all([
             fetchRealtimePrices(),
             fetchChartData('sec'),
-            fetchChartData('hynix')
+            fetchChartData('hynix'),
+            fetchYahooFinanceData('MU', 'mu'),
+            fetchYahooFinanceData('SNDK', 'sndk')
         ]);
 
         updateAnalysisTime();
@@ -1351,24 +1618,39 @@
         // Start live clock
         startClock();
 
-        // Initial fetch from Naver Stock APIs
-        await fetchRealtimePrices();
-        await fetchChartData('sec');
-        await fetchChartData('hynix');
+        // Initial fetch from Naver & Yahoo
+        await Promise.all([
+            fetchRealtimePrices(),
+            fetchChartData('sec'),
+            fetchChartData('hynix'),
+            fetchYahooFinanceData('MU', 'mu'),
+            fetchYahooFinanceData('SNDK', 'sndk')
+        ]);
         
         updateAnalysisTime();
         
         // Initial render
         renderSparkline('sec');
         renderSparkline('hynix');
+        renderSparkline('mu');
+        renderSparkline('sndk');
+        
         renderDailyText('sec');
         renderDailyText('hynix');
+        renderDailyText('mu');
+        renderDailyText('sndk');
 
-        // Set interval to sync with Naver every 10 seconds
+        // Set interval to sync with APIs every 10 seconds
         setInterval(async () => {
             await fetchRealtimePrices();
+            await Promise.all([
+                fetchYahooFinanceData('MU', 'mu'),
+                fetchYahooFinanceData('SNDK', 'sndk')
+            ]);
             if (stockData.sec.activeTab === '10m') renderSparkline('sec');
             if (stockData.hynix.activeTab === '10m') renderSparkline('hynix');
+            if (stockData.mu.activeTab === '10m') renderSparkline('mu');
+            if (stockData.sndk.activeTab === '10m') renderSparkline('sndk');
         }, 10000);
     });
 </script>
