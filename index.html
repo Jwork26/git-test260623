@@ -461,7 +461,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 0.75rem;
-            height: 140px; /* Fixed height to trigger vertical scrollbar */
+            height: 100%; /* Fill parent chart-container height */
             overflow-y: auto; /* Enable scroll down */
         }
 
@@ -486,6 +486,7 @@
             border-collapse: collapse;
             font-size: 0.8rem;
             text-align: left;
+            margin-bottom: 0.75rem; /* Add bottom margin so the last row does not get cut off */
         }
 
         .daily-table th {
