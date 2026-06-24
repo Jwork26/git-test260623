@@ -318,8 +318,16 @@
         .price-section {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.4rem;
             position: relative;
+        }
+
+        .update-time {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: -0.1rem;
         }
 
         .current-price-row {
@@ -687,6 +695,8 @@
             </div>
 
             <div class="price-section">
+                <!-- 수신 시세 기준 시간 (요구사항) -->
+                <span class="update-time" id="secUpdateTime">- 기준</span>
                 <div class="current-price-row">
                     <span class="price-val" id="secPrice">340,500</span>
                     <span class="price-unit">원</span>
@@ -747,6 +757,8 @@
             </div>
 
             <div class="price-section">
+                <!-- 수신 시세 기준 시간 (요구사항) -->
+                <span class="update-time" id="hynixUpdateTime">- 기준</span>
                 <div class="current-price-row">
                     <span class="price-val" id="hynixPrice">2,580,000</span>
                     <span class="price-unit">원</span>
@@ -871,7 +883,7 @@
             sparkline: document.getElementById('secSparkline'),
             loading: document.getElementById('secChartLoading'),
             dailyText: document.getElementById('secDailyText'),
-            // Elements for Y axis labels
+            elementUpdateTime: document.getElementById('secUpdateTime'),
             yMax: document.getElementById('secYMax'),
             yMid: document.getElementById('secYMid'),
             yMin: document.getElementById('secYMin')
@@ -898,7 +910,7 @@
             sparkline: document.getElementById('hynixSparkline'),
             loading: document.getElementById('hynixChartLoading'),
             dailyText: document.getElementById('hynixDailyText'),
-            // Elements for Y axis labels
+            elementUpdateTime: document.getElementById('hynixUpdateTime'),
             yMax: document.getElementById('hynixYMax'),
             yMid: document.getElementById('hynixYMid'),
             yMin: document.getElementById('hynixYMin')
@@ -971,7 +983,7 @@
         }
     }
 
-    // Render Daily Text Details (요구사항 2: 일별 종가는 날짜, 최저가, 최고가, 종가 텍스트 표시)
+    // Render Daily Text Details
     function renderDailyText(stockKey) {
         const stock = stockData[stockKey];
         stock.dailyText.innerHTML = ''; // Clear
@@ -1092,6 +1104,12 @@
         try {
             const data = await fetchWithProxy(url);
             if (data && data.resultCode === 'success') {
+                // Get current time to display right above price
+                const now = new Date();
+                const timeStr = String(now.getHours()).padStart(2, '0') + ':' +
+                                String(now.getMinutes()).padStart(2, '0') + ':' +
+                                String(now.getSeconds()).padStart(2, '0');
+
                 const datas = data.result.areas[0].datas;
                 datas.forEach(item => {
                     const key = item.cd === '005930' ? 'sec' : 'hynix';
@@ -1102,6 +1120,9 @@
 
                     // Update Price Value
                     stock.elementPrice.textContent = formatCurrency(stock.current);
+                    
+                    // Update data-received timestamp right above price (요구사항)
+                    stock.elementUpdateTime.textContent = `${timeStr} 기준`;
 
                     // Update badge styles & text
                     const diff = item.cv;
