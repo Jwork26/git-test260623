@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반도체 양대산맥 주가 현황판</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Base Colors */
+            --bg-dark: #090d16;
+            --bg-card: #131b2e;
+            --bg-card-hover: #18233c;
+            --border-color: #223153;
+            --border-glow: rgba(99, 102, 241, 0.15);
+            
+            /* Text Colors */
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+
+            /* Stock Colors (Korean Style: Red is Up, Blue is Down) */
+            --color-up: #ff4d6d;
+            --color-up-bg: rgba(255, 77, 109, 0.12);
+            --color-up-glow: rgba(255, 77, 109, 0.25);
+            
+            --color-down: #38bdf8;
+            --color-down-bg: rgba(56, 189, 248, 0.12);
+            --color-down-glow: rgba(56, 189, 248, 0.25);
+
+            --color-flat: #94a3b8;
+            --color-flat-bg: rgba(148, 163, 184, 0.12);
+
+            /* Interactive Colors */
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-glow: rgba(99, 102, 241, 0.4);
+
+            /* Transitions */
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* International Color Theme Override */
+        [data-theme="global"] {
+            --color-up: #10b981;
+            --color-up-bg: rgba(16, 185, 129, 0.12);
+            --color-up-glow: rgba(16, 185, 129, 0.25);
+            
+            --color-down: #ef4444;
+            --color-down-bg: rgba(239, 68, 68, 0.12);
+            --color-down-glow: rgba(239, 68, 68, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 77, 109, 0.03) 0%, transparent 45%);
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-section h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-section h1::before {
+            content: '⚡';
+            font-size: 1.6rem;
+        }
+
+        .logo-section p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        /* Button & Control Styles */
+        .btn {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .btn:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 12px var(--border-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            box-shadow: 0 0 16px var(--primary-glow);
+        }
+
+        /* Interactive Switch */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 0.3rem;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .switch-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            z-index: 2;
+        }
+
+        .switch-btn.active {
+            color: var(--text-primary);
+        }
+
+        .switch-bg {
+            position: absolute;
+            height: calc(100% - 0.6rem);
+            width: calc(50% - 0.3rem);
+            background: var(--border-color);
+            border-radius: 8px;
+            top: 0.3rem;
+            left: 0.3rem;
+            transition: var(--transition-smooth);
+            z-index: 1;
+        }
+
+        [data-switch="right"] .switch-bg {
+            left: calc(50%);
+        }
+
+        /* Dashboard Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 2rem;
+        }
+
+        @media (max-width: 580px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Stock Card Styles */
+        .stock-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .stock-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), 0 0 20px var(--border-glow);
+        }
+
+        .stock-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--card-accent, var(--primary));
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .company-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .company-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .ticker-badge {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            background-color: var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            width: fit-content;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-muted);
+            border-radius: 50%;
+        }
+
+        .live-active .live-dot {
+            background-color: var(--color-up);
+            box-shadow: 0 0 8px var(--color-up);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+
+        /* Price Section */
+        .price-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .current-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .price-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1;
+            transition: var(--transition-smooth);
+        }
+
+        .price-flash-up {
+            animation: flash-green 0.8s ease-out;
+        }
+        .price-flash-down {
+            animation: flash-red 0.8s ease-out;
+        }
+
+        @keyframes flash-green {
+            0% { color: var(--color-up); text-shadow: 0 0 15px var(--color-up-glow); }
+            100% { color: var(--text-primary); text-shadow: none; }
+        }
+
+        @keyframes flash-red {
+            0% { color: var(--color-down); text-shadow: 0 0 15px var(--color-down-glow); }
+            100% { color: var(--text-primary); text-shadow: none; }
+        }
+
+        .price-unit {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .price-change-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            width: fit-content;
+        }
+
+        .price-change-badge.up {
+            color: var(--color-up);
+            background-color: var(--color-up-bg);
+            box-shadow: 0 4px 12px rgba(255, 77, 109, 0.05);
+        }
+
+        .price-change-badge.down {
+            color: var(--color-down);
+            background-color: var(--color-down-bg);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.05);
+        }
+
+        /* Sparkline Visualization */
+        .chart-container {
+            height: 90px;
+            width: 100%;
+            margin: 0.5rem 0;
+            position: relative;
+        }
+
+        .sparkline {
+            width: 100%;
+            height: 100%;
+        }
+
+        .sparkline path.line {
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: var(--transition-smooth);
+        }
+
+        .sparkline path.area {
+            transition: var(--transition-smooth);
+        }
+
+        .sparkline-glow {
+            filter: drop-shadow(0px 4px 8px var(--glow-color));
+        }
+
+        /* Recent Closing Prices Table */
+        .history-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .history-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .history-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.02);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .history-row:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateX(3px);
+        }
+
+        .history-date {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .history-price-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .history-price {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+        }
+
+        .history-diff {
+            font-size: 0.8rem;
+            font-weight: 600;
+            min-width: 70px;
+            text-align: right;
+        }
+
+        .history-diff.up { color: var(--color-up); }
+        .history-diff.down { color: color-mix(in srgb, var(--color-down) 80%, white); }
+        .history-diff.flat { color: var(--color-flat); }
+
+        /* Footer */
+        footer {
+            margin-top: 1rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .footer-note {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        /* SVG Icon styling */
+        .icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .icon-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <header>
+        <div class="logo-section">
+            <h1>SemiTracker</h1>
+            <p>대한민국 반도체 대장주 실시간 시세 (2026년 6월 24일 기준)</p>
+        </div>
+        <div class="controls">
+            <!-- Theme toggle (Korea Red/Blue vs Global Green/Red) -->
+            <div class="switch-container" id="themeSwitchContainer" data-switch="left">
+                <button class="switch-btn active" id="btnThemeKR" onclick="setTheme('kr')">국내형 빨/파</button>
+                <button class="switch-btn" id="btnThemeGlobal" onclick="setTheme('global')">해외형 초/빨</button>
+                <div class="switch-bg"></div>
+            </div>
+            
+            <!-- Refresh Button -->
+            <button class="btn btn-primary" onclick="triggerRefresh()">
+                <svg class="icon" id="refreshIcon" viewBox="0 0 24 24">
+                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                </svg>
+                시세 갱신
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Grid -->
+    <div class="dashboard-grid">
+        
+        <!-- 삼성전자 CARD -->
+        <div class="stock-card" style="--card-accent: #3b82f6;">
+            <div class="card-header">
+                <div class="company-info">
+                    <span class="ticker-badge">005930 · KOSPI</span>
+                    <span class="company-name">삼성전자</span>
+                </div>
+                <div class="live-indicator live-active" id="secLiveIndicator">
+                    <div class="live-dot"></div>
+                    <span>실시간 모의 Ticking 중</span>
+                </div>
+            </div>
+
+            <div class="price-section">
+                <div class="current-price-row">
+                    <span class="price-val" id="secPrice">336,000</span>
+                    <span class="price-unit">원</span>
+                </div>
+                <div class="price-change-badge up" id="secChangeBadge">
+                    <span id="secChangeArrow">▲</span>
+                    <span id="secChangeVal">26,000 (+8.38%)</span>
+                </div>
+            </div>
+
+            <!-- Sparkline Chart -->
+            <div class="chart-container">
+                <svg class="sparkline sparkline-glow" id="secSparkline" viewBox="0 0 300 90">
+                    <defs>
+                        <linearGradient id="secAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.25"/>
+                            <stop offset="100%" stop-color="var(--color-up)" stop-opacity="0.0"/>
+                        </linearGradient>
+                    </defs>
+                    <path class="area" id="secAreaPath" fill="url(#secAreaGrad)" d=""></path>
+                    <path class="line" id="secLinePath" stroke="var(--color-up)" d=""></path>
+                </svg>
+            </div>
+
+            <!-- History Section -->
+            <div class="history-section">
+                <div class="history-title">
+                    <span>최근 3일 종가</span>
+                    <span>종가 (전일대비)</span>
+                </div>
+                <div class="history-list">
+                    <div class="history-row">
+                        <span class="history-date">6월 23일 (화)</span>
+                        <div class="history-price-group">
+                            <span class="history-price">310,000원</span>
+                            <span class="history-diff down">▼ 12.30%</span>
+                        </div>
+                    </div>
+                    <div class="history-row">
+                        <span class="history-date">6월 22일 (월)</span>
+                        <div class="history-price-group">
+                            <span class="history-price">353,500원</span>
+                            <span class="history-diff down">▼ 0.14%</span>
+                        </div>
+                    </div>
+                    <div class="history-row">
+                        <span class="history-date">6월 19일 (금)</span>
+                        <div class="history-price-group">
+                            <span class="history-price">354,000원</span>
+                            <span class="history-diff up">▲ 4.56%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SK하이닉스 CARD -->
+        <div class="stock-card" style="--card-accent: #f97316;">
+            <div class="card-header">
+                <div class="company-info">
+                    <span class="ticker-badge">000660 · KOSPI</span>
+                    <span class="company-name">SK하이닉스</span>
+                </div>
+                <div class="live-indicator live-active" id="hynixLiveIndicator">
+                    <div class="live-dot"></div>
+                    <span>실시간 모의 Ticking 중</span>
+                </div>
+            </div>
+
+            <div class="price-section">
+                <div class="current-price-row">
+                    <span class="price-val" id="hynixPrice">2,617,000</span>
+                    <span class="price-unit">원</span>
+                </div>
+                <div class="price-change-badge up" id="hynixChangeBadge">
+                    <span id="hynixChangeArrow">▲</span>
+                    <span id="hynixChangeVal">62,000 (+2.42%)</span>
+                </div>
+            </div>
+
+            <!-- Sparkline Chart -->
+            <div class="chart-container">
+                <svg class="sparkline sparkline-glow" id="hynixSparkline" viewBox="0 0 300 90">
+                    <defs>
+                        <linearGradient id="hynixAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.25"/>
+                            <stop offset="100%" stop-color="var(--color-up)" stop-opacity="0.0"/>
+                        </linearGradient>
+                    </defs>
+                    <path class="area" id="hynixAreaPath" fill="url(#hynixAreaGrad)" d=""></path>
+                    <path class="line" id="hynixLinePath" stroke="var(--color-up)" d=""></path>
+                </svg>
+            </div>
+
+            <!-- History Section -->
+            <div class="history-section">
+                <div class="history-title">
+                    <span>최근 3일 종가</span>
+                    <span>종가 (전일대비)</span>
+                </div>
+                <div class="history-list">
+                    <div class="history-row">
+                        <span class="history-date">6월 23일 (화)</span>
+                        <div class="history-price-group">
+                            <span class="history-price">2,555,000원</span>
+                            <span class="history-diff down">▼ 12.46%</span>
+                        </div>
+                    </div>
+                    <div class="history-row">
+                        <span class="history-date">6월 22일 (월)</span>
+                        <div class="history-price-group">
+                            <span class="history-price">2,919,000원</span>
+                            <span class="history-diff up">▲ 5.61%</span>
+                        </div>
+                    </div>
+                    <div class="history-row">
+                        <span class="history-date">6월 19일 (금)</span>
+                        <div class="history-price-group">
+                            <span class="history-price">2,764,000원</span>
+                            <span class="history-diff up">▲ 2.12%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 SemiTracker Dashboard. All Rights Reserved.</p>
+        <p class="footer-note">* 본 화면의 데이터는 2026년 6월 24일 한국 거래소 마감 및 이전 일자 종가 데이터를 바탕으로 하고 있으며, 실시간 가격은 모의 Ticking 데이터입니다.</p>
+    </footer>
+</div>
+
+<script>
+    // Stock data structures
+    const stockData = {
+        sec: {
+            name: "삼성전자",
+            ticker: "005930",
+            current: 336000,
+            basePrice: 310000, // June 23 Close
+            history: [
+                { date: "6월 19일", price: 354000, changeRate: 4.56 },
+                { date: "6월 22일", price: 353500, changeRate: -0.14 },
+                { date: "6월 23일", price: 310000, changeRate: -12.30 }
+            ],
+            elementPrice: document.getElementById('secPrice'),
+            elementBadge: document.getElementById('secChangeBadge'),
+            elementArrow: document.getElementById('secChangeArrow'),
+            elementVal: document.getElementById('secChangeVal'),
+            linePath: document.getElementById('secLinePath'),
+            areaPath: document.getElementById('secAreaPath'),
+            sparkline: document.getElementById('secSparkline')
+        },
+        hynix: {
+            name: "SK하이닉스",
+            ticker: "000660",
+            current: 2617000,
+            basePrice: 2555000, // June 23 Close
+            history: [
+                { date: "6월 19일", price: 2764000, changeRate: 2.12 },
+                { date: "6월 22일", price: 2919000, changeRate: 5.61 },
+                { date: "6월 23일", price: 2555000, changeRate: -12.46 }
+            ],
+            elementPrice: document.getElementById('hynixPrice'),
+            elementBadge: document.getElementById('hynixChangeBadge'),
+            elementArrow: document.getElementById('hynixChangeArrow'),
+            elementVal: document.getElementById('hynixChangeVal'),
+            linePath: document.getElementById('hynixLinePath'),
+            areaPath: document.getElementById('hynixAreaPath'),
+            sparkline: document.getElementById('hynixSparkline')
+        }
+    };
+
+    // Color theme management
+    function setTheme(theme) {
+        const container = document.getElementById('themeSwitchContainer');
+        const btnKR = document.getElementById('btnThemeKR');
+        const btnGlobal = document.getElementById('btnThemeGlobal');
+
+        if (theme === 'global') {
+            document.documentElement.setAttribute('data-theme', 'global');
+            container.setAttribute('data-switch', 'right');
+            btnKR.classList.remove('active');
+            btnGlobal.classList.add('active');
+            document.querySelectorAll('.sparkline-glow').forEach(el => {
+                el.style.setProperty('--glow-color', 'var(--color-up-glow)');
+            });
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            container.setAttribute('data-switch', 'left');
+            btnKR.classList.add('active');
+            btnGlobal.classList.remove('active');
+            document.querySelectorAll('.sparkline-glow').forEach(el => {
+                el.style.setProperty('--glow-color', 'var(--color-up-glow)');
+            });
+        }
+        
+        // Re-render sparklines to ensure colors are updated correctly
+        renderSparkline('sec');
+        renderSparkline('hynix');
+    }
+
+    // Format currency helper
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('ko-KR').format(Math.round(value));
+    }
+
+    // Render Sparkline SVG dynamically
+    function renderSparkline(stockKey) {
+        const stock = stockData[stockKey];
+        // Combine history + current to build chart points
+        const points = [...stock.history.map(h => h.price), stock.current];
+        
+        const min = Math.min(...points) * 0.98;
+        const max = Math.max(...points) * 1.02;
+        const range = max - min;
+        
+        const width = 300;
+        const height = 90;
+        const padding = 10;
+        
+        const svgPoints = points.map((p, index) => {
+            const x = padding + (index * (width - 2 * padding) / (points.length - 1));
+            const y = height - padding - ((p - min) * (height - 2 * padding) / range);
+            return { x, y };
+        });
+
+        // Create line path
+        let dLine = `M ${svgPoints[0].x} ${svgPoints[0].y}`;
+        for (let i = 1; i < svgPoints.length; i++) {
+            // Smooth curve
+            const cpX1 = svgPoints[i-1].x + (svgPoints[i].x - svgPoints[i-1].x) / 2;
+            const cpY1 = svgPoints[i-1].y;
+            const cpX2 = cpX1;
+            const cpY2 = svgPoints[i].y;
+            dLine += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${svgPoints[i].x} ${svgPoints[i].y}`;
+        }
+        
+        stock.linePath.setAttribute('d', dLine);
+
+        // Create area path
+        const dArea = `${dLine} L ${svgPoints[svgPoints.length - 1].x} ${height} L ${svgPoints[0].x} ${height} Z`;
+        stock.areaPath.setAttribute('d', dArea);
+
+        // Determine path color based on trend
+        const isUp = stock.current >= stock.basePrice;
+        const strokeColor = isUp ? 'var(--color-up)' : 'var(--color-down)';
+        
+        stock.linePath.setAttribute('stroke', strokeColor);
+        
+        // Update gradient stop color dynamically
+        const gradId = stockKey === 'sec' ? 'secAreaGrad' : 'hynixAreaGrad';
+        const stops = document.querySelectorAll(`#${gradId} stop`);
+        stops.forEach((stop, index) => {
+            if (index === 0) {
+                stop.setAttribute('stop-color', strokeColor);
+            } else {
+                stop.setAttribute('stop-color', strokeColor);
+            }
+        });
+
+        // Set CSS property for custom filter drop shadow
+        const glowColor = isUp ? 'var(--color-up-glow)' : 'var(--color-down-glow)';
+        stock.sparkline.style.setProperty('--glow-color', glowColor);
+    }
+
+    // Update stock UI
+    function updateStockUI(stockKey, isTicking = false) {
+        const stock = stockData[stockKey];
+        const diff = stock.current - stock.basePrice;
+        const diffRate = (diff / stock.basePrice) * 100;
+        const isUp = diff >= 0;
+
+        // Apply temporary flash animations on tick updates
+        if (isTicking) {
+            const classToAdd = diff >= 0 ? 'price-flash-up' : 'price-flash-down';
+            stock.elementPrice.classList.remove('price-flash-up', 'price-flash-down');
+            void stock.elementPrice.offsetWidth; // Trigger reflow
+            stock.elementPrice.classList.add(classToAdd);
+        }
+
+        // Update Price Value
+        stock.elementPrice.textContent = formatCurrency(stock.current);
+
+        // Update badge styles & text
+        if (isUp) {
+            stock.elementBadge.className = "price-change-badge up";
+            stock.elementArrow.textContent = "▲";
+            stock.elementVal.textContent = `${formatCurrency(diff)} (+${diffRate.toFixed(2)}%)`;
+        } else {
+            stock.elementBadge.className = "price-change-badge down";
+            stock.elementArrow.textContent = "▼";
+            stock.elementVal.textContent = `${formatCurrency(Math.abs(diff))} (-${Math.abs(diffRate).toFixed(2)}%)`;
+        }
+
+        // Re-render sparkline
+        renderSparkline(stockKey);
+    }
+
+    // Refresh simulation
+    let isRefreshing = false;
+    function triggerRefresh() {
+        if (isRefreshing) return;
+        isRefreshing = true;
+
+        const refreshIcon = document.getElementById('refreshIcon');
+        refreshIcon.classList.add('icon-spin');
+
+        // Simulate network latency (500ms)
+        setTimeout(() => {
+            // Apply a slightly larger fluctuation for refresh
+            Object.keys(stockData).forEach(key => {
+                const stock = stockData[key];
+                const changePercent = (Math.random() - 0.45) * 0.04; // -1.8% to +2.2%
+                stock.current = Math.round(stock.current * (1 + changePercent));
+                updateStockUI(key, true);
+            });
+
+            refreshIcon.classList.remove('icon-spin');
+            isRefreshing = false;
+        }, 600);
+    }
+
+    // Real-time ticking simulation (runs every 3-5 seconds to feel dynamic and alive)
+    function startSimulatedTicking() {
+        setInterval(() => {
+            // Randomly pick one stock to tick
+            const key = Math.random() > 0.5 ? 'sec' : 'hynix';
+            const stock = stockData[key];
+            
+            // Minor live fluctuation (-0.2% to +0.25%)
+            const fluctuation = (Math.random() - 0.45) * 0.003;
+            stock.current = Math.round(stock.current * (1 + fluctuation));
+            
+            updateStockUI(key, true);
+        }, 4000);
+    }
+
+    // Initialize Page
+    window.addEventListener('DOMContentLoaded', () => {
+        // Initial draw
+        updateStockUI('sec');
+        updateStockUI('hynix');
+        
+        // Start live simulated ticking
+        startSimulatedTicking();
+    });
+</script>
+</body>
+</html>
