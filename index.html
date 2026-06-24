@@ -384,9 +384,9 @@
             box-shadow: 0 4px 12px rgba(56, 189, 248, 0.05);
         }
 
-        /* Sparkline Visualization */
+        /* Dynamic SVG Chart (Axis layout) */
         .chart-container {
-            height: 100px;
+            height: 140px;
             width: 100%;
             margin: 0.5rem 0;
             position: relative;
@@ -399,7 +399,7 @@
 
         .sparkline path.line {
             fill: none;
-            stroke-width: 3;
+            stroke-width: 2.5;
             stroke-linecap: round;
             stroke-linejoin: round;
             transition: var(--transition-smooth);
@@ -411,6 +411,20 @@
 
         .sparkline-glow {
             filter: drop-shadow(0px 4px 8px var(--glow-color));
+        }
+
+        /* SVG Grid & Axis styling */
+        .axis-line {
+            stroke: rgba(255, 255, 255, 0.08);
+            stroke-width: 1;
+            stroke-dasharray: 4, 4;
+        }
+
+        .axis-text {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            font-size: 0.7rem;
+            fill: var(--text-muted);
+            user-select: none;
         }
 
         /* Chart Tooltip Overlay */
@@ -429,6 +443,65 @@
             border-radius: 8px;
             z-index: 5;
             transition: var(--transition-smooth);
+        }
+
+        /* Daily Closing Text Container */
+        .daily-text-container {
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            min-height: 140px;
+            overflow-y: auto;
+        }
+
+        .daily-text-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+        }
+
+        .daily-text-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .daily-text-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .daily-text-date {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .daily-text-close {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+        }
+
+        .daily-text-close.up { color: var(--color-up); }
+        .daily-text-close.down { color: var(--color-down); }
+
+        .daily-text-range {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .daily-text-val {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         /* Analysis Panel Card */
@@ -624,19 +697,39 @@
                 </div>
             </div>
 
-            <!-- Sparkline Chart -->
+            <!-- Sparkline Chart & Daily Close Container -->
             <div class="chart-container">
                 <div class="chart-loading" id="secChartLoading" style="display: none;">네이버 시세 불러오는 중...</div>
-                <svg class="sparkline sparkline-glow" id="secSparkline" viewBox="0 0 300 100">
+                
+                <!-- 10m Chart SVG -->
+                <svg class="sparkline sparkline-glow" id="secSparkline" viewBox="0 0 340 140">
                     <defs>
                         <linearGradient id="secAreaGrad" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.25"/>
                             <stop offset="100%" stop-color="var(--color-up)" stop-opacity="0.0"/>
                         </linearGradient>
                     </defs>
+                    <!-- Y Axis Labels -->
+                    <text class="axis-text" id="secYMax" x="50" y="15" text-anchor="end">340k</text>
+                    <text class="axis-text" id="secYMid" x="50" y="65" text-anchor="end">325k</text>
+                    <text class="axis-text" id="secYMin" x="50" y="115" text-anchor="end">310k</text>
+                    <!-- Grid Lines -->
+                    <line class="axis-line" x1="55" y1="12" x2="330" y2="12"></line>
+                    <line class="axis-line" x1="55" y1="62" x2="330" y2="62"></line>
+                    <line class="axis-line" x1="55" y1="112" x2="330" y2="112"></line>
+                    <!-- X Axis Labels -->
+                    <text class="axis-text" x="55" y="132" text-anchor="start">09:00</text>
+                    <text class="axis-text" x="192" y="132" text-anchor="middle">12:00</text>
+                    <text class="axis-text" x="330" y="132" text-anchor="end">15:30</text>
+                    <!-- Line & Area Paths -->
                     <path class="area" id="secAreaPath" fill="url(#secAreaGrad)" d=""></path>
                     <path class="line" id="secLinePath" stroke="var(--color-up)" d=""></path>
                 </svg>
+
+                <!-- Daily Closing Text List -->
+                <div class="daily-text-container" id="secDailyText" style="display: none;">
+                    <!-- Dynamically populated -->
+                </div>
             </div>
         </div>
 
@@ -664,19 +757,39 @@
                 </div>
             </div>
 
-            <!-- Sparkline Chart -->
+            <!-- Sparkline Chart & Daily Close Container -->
             <div class="chart-container">
                 <div class="chart-loading" id="hynixChartLoading" style="display: none;">네이버 시세 불러오는 중...</div>
-                <svg class="sparkline sparkline-glow" id="hynixSparkline" viewBox="0 0 300 100">
+                
+                <!-- 10m Chart SVG -->
+                <svg class="sparkline sparkline-glow" id="hynixSparkline" viewBox="0 0 340 140">
                     <defs>
                         <linearGradient id="hynixAreaGrad" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.25"/>
                             <stop offset="100%" stop-color="var(--color-up)" stop-opacity="0.0"/>
                         </linearGradient>
                     </defs>
+                    <!-- Y Axis Labels -->
+                    <text class="axis-text" id="hynixYMax" x="50" y="15" text-anchor="end">2.7m</text>
+                    <text class="axis-text" id="hynixYMid" x="50" y="65" text-anchor="end">2.5m</text>
+                    <text class="axis-text" id="hynixYMin" x="50" y="115" text-anchor="end">2.4m</text>
+                    <!-- Grid Lines -->
+                    <line class="axis-line" x1="55" y1="12" x2="330" y2="12"></line>
+                    <line class="axis-line" x1="55" y1="62" x2="330" y2="62"></line>
+                    <line class="axis-line" x1="55" y1="112" x2="330" y2="112"></line>
+                    <!-- X Axis Labels -->
+                    <text class="axis-text" x="55" y="132" text-anchor="start">09:00</text>
+                    <text class="axis-text" x="192" y="132" text-anchor="middle">12:00</text>
+                    <text class="axis-text" x="330" y="132" text-anchor="end">15:30</text>
+                    <!-- Line & Area Paths -->
                     <path class="area" id="hynixAreaPath" fill="url(#hynixAreaGrad)" d=""></path>
                     <path class="line" id="hynixLinePath" stroke="var(--color-up)" d=""></path>
                 </svg>
+
+                <!-- Daily Closing Text List -->
+                <div class="daily-text-container" id="hynixDailyText" style="display: none;">
+                    <!-- Dynamically populated -->
+                </div>
             </div>
         </div>
 
@@ -741,12 +854,12 @@
             current: 340500,
             basePrice: 310000,
             activeTab: '10m', // '10m' or 'daily'
-            // Fallback mock history data
+            // Richer history database combining actual 24th data and mock historical values
             dailyHistory: [
-                { date: "6월 19일", price: 354000 },
-                { date: "6월 22일", price: 353500 },
-                { date: "6월 23일", price: 310000 },
-                { date: "6월 24일", price: 340500 }
+                { date: "6월 19일 (금)", low: 340000, high: 356000, close: 354000, rate: 4.56 },
+                { date: "6월 22일 (월)", low: 335000, high: 355000, close: 353500, rate: -0.14 },
+                { date: "6월 23일 (화)", low: 300500, high: 314000, close: 310000, rate: -12.30 },
+                { date: "6월 24일 (수)", low: 314000, high: 341000, close: 340500, rate: 9.84 }
             ],
             minutePoints: [],
             elementPrice: document.getElementById('secPrice'),
@@ -756,7 +869,12 @@
             linePath: document.getElementById('secLinePath'),
             areaPath: document.getElementById('secAreaPath'),
             sparkline: document.getElementById('secSparkline'),
-            loading: document.getElementById('secChartLoading')
+            loading: document.getElementById('secChartLoading'),
+            dailyText: document.getElementById('secDailyText'),
+            // Elements for Y axis labels
+            yMax: document.getElementById('secYMax'),
+            yMid: document.getElementById('secYMid'),
+            yMin: document.getElementById('secYMin')
         },
         hynix: {
             name: "SK하이닉스",
@@ -765,10 +883,10 @@
             basePrice: 2555000,
             activeTab: '10m',
             dailyHistory: [
-                { date: "6월 19일", price: 2764000 },
-                { date: "6월 22일", price: 2919000 },
-                { date: "6월 23일", price: 2555000 },
-                { date: "6월 24일", price: 2580000 }
+                { date: "6월 19일 (금)", low: 2700000, high: 2800000, close: 2764000, rate: 2.12 },
+                { date: "6월 22일 (월)", low: 2750000, high: 2950000, close: 2919000, rate: 5.61 },
+                { date: "6월 23일 (화)", low: 2450000, high: 2600000, close: 2555000, rate: -12.46 },
+                { date: "6월 24일 (수)", low: 2453000, high: 2703000, close: 2580000, rate: 0.98 }
             ],
             minutePoints: [],
             elementPrice: document.getElementById('hynixPrice'),
@@ -778,7 +896,12 @@
             linePath: document.getElementById('hynixLinePath'),
             areaPath: document.getElementById('hynixAreaPath'),
             sparkline: document.getElementById('hynixSparkline'),
-            loading: document.getElementById('hynixChartLoading')
+            loading: document.getElementById('hynixChartLoading'),
+            dailyText: document.getElementById('hynixDailyText'),
+            // Elements for Y axis labels
+            yMax: document.getElementById('hynixYMax'),
+            yMid: document.getElementById('hynixYMid'),
+            yMin: document.getElementById('hynixYMin')
         }
     };
 
@@ -836,38 +959,75 @@
         if (tab === '10m') {
             tab10m.classList.add('active');
             tabDaily.classList.remove('active');
+            stock.sparkline.style.display = 'block';
+            stock.dailyText.style.display = 'none';
+            renderSparkline(stockKey);
         } else {
             tab10m.classList.remove('active');
             tabDaily.classList.add('active');
+            stock.sparkline.style.display = 'none';
+            stock.dailyText.style.display = 'flex';
+            renderDailyText(stockKey);
         }
-
-        renderSparkline(stockKey);
     }
 
-    // Render Sparkline SVG dynamically
+    // Render Daily Text Details (요구사항 2: 일별 종가는 날짜, 최저가, 최고가, 종가 텍스트 표시)
+    function renderDailyText(stockKey) {
+        const stock = stockData[stockKey];
+        stock.dailyText.innerHTML = ''; // Clear
+
+        stock.dailyHistory.forEach(item => {
+            const row = document.createElement('div');
+            row.className = 'daily-text-row';
+
+            const rateStr = item.rate >= 0 ? `+${item.rate.toFixed(2)}%` : `${item.rate.toFixed(2)}%`;
+            const rateClass = item.rate >= 0 ? 'up' : 'down';
+
+            row.innerHTML = `
+                <div class="daily-text-meta">
+                    <span class="daily-text-date">${item.date}</span>
+                    <span class="daily-text-close ${rateClass}">종가 ${formatCurrency(item.close)}원 (${rateStr})</span>
+                </div>
+                <div class="daily-text-range">
+                    <span>최저가: <span class="daily-text-val">${formatCurrency(item.low)}원</span></span>
+                    <span>최고가: <span class="daily-text-val">${formatCurrency(item.high)}원</span></span>
+                </div>
+            `;
+            stock.dailyText.appendChild(row);
+        });
+    }
+
+    // Render Sparkline SVG dynamically with Axis (10m chart)
     function renderSparkline(stockKey) {
         const stock = stockData[stockKey];
-        let points = [];
-
-        if (stock.activeTab === '10m' && stock.minutePoints.length > 0) {
-            points = stock.minutePoints;
-        } else {
-            points = stock.dailyHistory.map(h => h.price);
-        }
+        const points = stock.minutePoints;
 
         if (points.length === 0) return;
 
-        const min = Math.min(...points) * 0.995;
-        const max = Math.max(...points) * 1.005;
+        const min = Math.min(...points);
+        const max = Math.max(...points);
+        
+        // Update Y Axis Labels dynamically
+        stock.yMax.textContent = formatCurrency(max);
+        stock.yMin.textContent = formatCurrency(min);
+        stock.yMid.textContent = formatCurrency((max + min) / 2);
+
         const range = max - min === 0 ? 1 : max - min;
         
-        const width = 300;
-        const height = 100;
-        const padding = 10;
+        // SVG dimensions
+        const width = 340;
+        const height = 140;
+        const paddingLeft = 55;
+        const paddingRight = 10;
+        const paddingTop = 12;
+        const paddingBottom = 28;
         
+        const chartWidth = width - paddingLeft - paddingRight;
+        const chartHeight = height - paddingTop - paddingBottom;
+
         const svgPoints = points.map((p, index) => {
-            const x = padding + (index * (width - 2 * padding) / (points.length - 1));
-            const y = height - padding - ((p - min) * (height - 2 * padding) / range);
+            const x = paddingLeft + (index * chartWidth / (points.length - 1));
+            const y = paddingTop + chartHeight - ((p - min) * chartHeight / range);
             return { x, y };
         });
 
@@ -884,7 +1044,7 @@
         stock.linePath.setAttribute('d', dLine);
 
         // Create area path
-        const dArea = `${dLine} L ${svgPoints[svgPoints.length - 1].x} ${height} L ${svgPoints[0].x} ${height} Z`;
+        const dArea = `${dLine} L ${svgPoints[svgPoints.length - 1].x} ${height - paddingBottom} L ${svgPoints[0].x} ${height - paddingBottom} Z`;
         stock.areaPath.setAttribute('d', dArea);
 
         // Determine path color based on trend
@@ -908,11 +1068,8 @@
     // Helper for multi-proxy AJAX fetching
     async function fetchWithProxy(targetUrl) {
         const proxies = [
-            // Direct request first
             targetUrl,
-            // allorigins.win (Raw Mode)
             `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
-            // codetabs.com
             `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`
         ];
 
@@ -926,7 +1083,7 @@
                 console.warn(`Proxy ${i} failed, attempting next...`, err);
             }
         }
-        throw new Error("All fetching methods failed due to CORS or networking issues.");
+        throw new Error("All fetching methods failed.");
     }
 
     // Fetch real-time price & changes from Naver Realtime API
@@ -949,13 +1106,13 @@
                     // Update badge styles & text
                     const diff = item.cv;
                     const diffRate = item.cr;
-                    const isUp = item.rf === '2' || item.rf === '3'; // RISING/UP_LIMIT
+                    const isUp = item.rf === '2' || item.rf === '3';
 
                     if (isUp) {
                         stock.elementBadge.className = "price-change-badge up";
                         stock.elementArrow.textContent = "▲";
                         stock.elementVal.textContent = `${formatCurrency(diff)} (+${diffRate.toFixed(2)}%)`;
-                    } else if (item.rf === '4' || item.rf === '5') { // FALLING/DOWN_LIMIT
+                    } else if (item.rf === '4' || item.rf === '5') {
                         stock.elementBadge.className = "price-change-badge down";
                         stock.elementArrow.textContent = "▼";
                         stock.elementVal.textContent = `${formatCurrency(Math.abs(diff))} (-${Math.abs(diffRate).toFixed(2)}%)`;
@@ -965,8 +1122,12 @@
                         stock.elementVal.textContent = `0 (0.00%)`;
                     }
 
-                    // Update daily history last element to stay fresh
-                    stock.dailyHistory[stock.dailyHistory.length - 1].price = stock.current;
+                    // Sync the last element of daily close history with current live price
+                    const lastHistory = stock.dailyHistory[stock.dailyHistory.length - 1];
+                    lastHistory.close = stock.current;
+                    lastHistory.low = item.lv;
+                    lastHistory.high = item.hv;
+                    lastHistory.rate = diffRate;
                 });
             }
         } catch (e) {
@@ -991,8 +1152,12 @@
 
                 stock.minutePoints = filtered.map(item => item.currentPrice);
                 
-                // If minute points were gathered successfully, render it
-                renderSparkline(stockKey);
+                // Redraw chart if 10m is currently active
+                if (stock.activeTab === '10m') {
+                    renderSparkline(stockKey);
+                } else {
+                    renderDailyText(stockKey);
+                }
             }
         } catch (e) {
             console.error(`Failed to load chart data for ${stockKey}:`, e);
@@ -1034,6 +1199,8 @@
         // Initial render for fallback safety
         renderSparkline('sec');
         renderSparkline('hynix');
+        renderDailyText('sec');
+        renderDailyText('hynix');
 
         // Set interval to sync with Naver every 10 seconds
         setInterval(async () => {
