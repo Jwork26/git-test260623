@@ -120,6 +120,19 @@
             margin-top: 0.25rem;
         }
 
+        .time-badge {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: #a5b4fc;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
         .controls {
             display: flex;
             gap: 0.75rem;
@@ -146,10 +159,6 @@
             border-color: var(--primary);
             box-shadow: 0 0 12px var(--border-glow);
             transform: translateY(-2px);
-        }
-
-        .btn:active {
-            transform: translateY(0);
         }
 
         .btn-primary {
@@ -234,7 +243,7 @@
         }
 
         .stock-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-4px);
             border-color: var(--primary);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), 0 0 20px var(--border-glow);
         }
@@ -279,32 +288,30 @@
             letter-spacing: 0.5px;
         }
 
-        .live-indicator {
+        .chart-tab-container {
             display: flex;
-            align-items: center;
             gap: 0.4rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
             font-size: 0.75rem;
-            color: var(--text-muted);
-            font-weight: 500;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition-smooth);
         }
 
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--text-muted);
-            border-radius: 50%;
-        }
-
-        .live-active .live-dot {
-            background-color: var(--color-up);
-            box-shadow: 0 0 8px var(--color-up);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.5; }
-            50% { transform: scale(1.15); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.5; }
+        .chart-tab-btn.active {
+            background: var(--border-color);
+            color: var(--text-primary);
         }
 
         /* Price Section */
@@ -379,7 +386,7 @@
 
         /* Sparkline Visualization */
         .chart-container {
-            height: 90px;
+            height: 100px;
             width: 100%;
             margin: 0.5rem 0;
             position: relative;
@@ -406,73 +413,124 @@
             filter: drop-shadow(0px 4px 8px var(--glow-color));
         }
 
-        /* Recent Closing Prices Table */
-        .history-section {
+        /* Chart Tooltip Overlay */
+        .chart-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .history-title {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .history-row {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.02);
-            padding: 0.75rem 1rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            font-size: 0.9rem;
+            justify-content: center;
+            background: rgba(19, 27, 46, 0.8);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            z-index: 5;
             transition: var(--transition-smooth);
         }
 
-        .history-row:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.08);
-            transform: translateX(3px);
+        /* Analysis Panel Card */
+        .analysis-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
         }
 
-        .history-date {
-            color: var(--text-secondary);
-            font-weight: 500;
+        .analysis-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #f97316);
         }
 
-        .history-price-group {
+        .analysis-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 40%, #c7d2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
         }
 
-        .history-price {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
 
-        .history-diff {
-            font-size: 0.8rem;
-            font-weight: 600;
-            min-width: 70px;
-            text-align: right;
+        .analysis-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: var(--transition-smooth);
         }
 
-        .history-diff.up { color: var(--color-up); }
-        .history-diff.down { color: color-mix(in srgb, var(--color-down) 80%, white); }
-        .history-diff.flat { color: var(--color-flat); }
+        .analysis-box:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .analysis-box-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .analysis-box-header.news { color: #facc15; }
+        .analysis-box-header.board { color: #38bdf8; }
+        .analysis-box-header.sns { color: #ec4899; }
+
+        .analysis-bullets {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            list-style: none;
+        }
+
+        .analysis-bullets li {
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .analysis-bullets li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .source-tag {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            margin-left: 0.25rem;
+            white-space: nowrap;
+        }
 
         /* Footer */
         footer {
@@ -490,7 +548,6 @@
             opacity: 0.8;
         }
 
-        /* SVG Icon styling */
         .icon {
             width: 16px;
             height: 16px;
@@ -513,10 +570,16 @@
     <!-- Header -->
     <header>
         <div class="logo-section">
-            <h1>SemiTracker</h1>
-            <p>대한민국 반도체 대장주 실시간 시세 (2026년 6월 24일 기준)</p>
+            <h1>⚡ SemiTracker</h1>
+            <p>대한민국 반도체 대장주 실시간 시세 분석</p>
         </div>
         <div class="controls">
+            <!-- Reference Time Display -->
+            <div class="time-badge">
+                <span>기준시각:</span>
+                <span id="baseTime">2026-06-24 16:09:51</span>
+            </div>
+
             <!-- Theme toggle (Korea Red/Blue vs Global Green/Red) -->
             <div class="switch-container" id="themeSwitchContainer" data-switch="left">
                 <button class="switch-btn active" id="btnThemeKR" onclick="setTheme('kr')">국내형 빨/파</button>
@@ -544,26 +607,27 @@
                     <span class="ticker-badge">005930 · KOSPI</span>
                     <span class="company-name">삼성전자</span>
                 </div>
-                <div class="live-indicator live-active" id="secLiveIndicator">
-                    <div class="live-dot"></div>
-                    <span>실시간 모의 Ticking 중</span>
+                <div class="chart-tab-container">
+                    <button class="chart-tab-btn active" id="secTab10m" onclick="switchChartTab('sec', '10m')">10분 차트</button>
+                    <button class="chart-tab-btn" id="secTabDaily" onclick="switchChartTab('sec', 'daily')">일별 종가</button>
                 </div>
             </div>
 
             <div class="price-section">
                 <div class="current-price-row">
-                    <span class="price-val" id="secPrice">336,000</span>
+                    <span class="price-val" id="secPrice">340,500</span>
                     <span class="price-unit">원</span>
                 </div>
                 <div class="price-change-badge up" id="secChangeBadge">
                     <span id="secChangeArrow">▲</span>
-                    <span id="secChangeVal">26,000 (+8.38%)</span>
+                    <span id="secChangeVal">30,500 (+9.84%)</span>
                 </div>
             </div>
 
             <!-- Sparkline Chart -->
             <div class="chart-container">
-                <svg class="sparkline sparkline-glow" id="secSparkline" viewBox="0 0 300 90">
+                <div class="chart-loading" id="secChartLoading" style="display: none;">네이버 시세 불러오는 중...</div>
+                <svg class="sparkline sparkline-glow" id="secSparkline" viewBox="0 0 300 100">
                     <defs>
                         <linearGradient id="secAreaGrad" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.25"/>
@@ -574,37 +638,6 @@
                     <path class="line" id="secLinePath" stroke="var(--color-up)" d=""></path>
                 </svg>
             </div>
-
-            <!-- History Section -->
-            <div class="history-section">
-                <div class="history-title">
-                    <span>최근 3일 종가</span>
-                    <span>종가 (전일대비)</span>
-                </div>
-                <div class="history-list">
-                    <div class="history-row">
-                        <span class="history-date">6월 23일 (화)</span>
-                        <div class="history-price-group">
-                            <span class="history-price">310,000원</span>
-                            <span class="history-diff down">▼ 12.30%</span>
-                        </div>
-                    </div>
-                    <div class="history-row">
-                        <span class="history-date">6월 22일 (월)</span>
-                        <div class="history-price-group">
-                            <span class="history-price">353,500원</span>
-                            <span class="history-diff down">▼ 0.14%</span>
-                        </div>
-                    </div>
-                    <div class="history-row">
-                        <span class="history-date">6월 19일 (금)</span>
-                        <div class="history-price-group">
-                            <span class="history-price">354,000원</span>
-                            <span class="history-diff up">▲ 4.56%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- SK하이닉스 CARD -->
@@ -614,26 +647,27 @@
                     <span class="ticker-badge">000660 · KOSPI</span>
                     <span class="company-name">SK하이닉스</span>
                 </div>
-                <div class="live-indicator live-active" id="hynixLiveIndicator">
-                    <div class="live-dot"></div>
-                    <span>실시간 모의 Ticking 중</span>
+                <div class="chart-tab-container">
+                    <button class="chart-tab-btn active" id="hynixTab10m" onclick="switchChartTab('hynix', '10m')">10분 차트</button>
+                    <button class="chart-tab-btn" id="hynixTabDaily" onclick="switchChartTab('hynix', 'daily')">일별 종가</button>
                 </div>
             </div>
 
             <div class="price-section">
                 <div class="current-price-row">
-                    <span class="price-val" id="hynixPrice">2,617,000</span>
+                    <span class="price-val" id="hynixPrice">2,580,000</span>
                     <span class="price-unit">원</span>
                 </div>
                 <div class="price-change-badge up" id="hynixChangeBadge">
                     <span id="hynixChangeArrow">▲</span>
-                    <span id="hynixChangeVal">62,000 (+2.42%)</span>
+                    <span id="hynixChangeVal">25,000 (+0.98%)</span>
                 </div>
             </div>
 
             <!-- Sparkline Chart -->
             <div class="chart-container">
-                <svg class="sparkline sparkline-glow" id="hynixSparkline" viewBox="0 0 300 90">
+                <div class="chart-loading" id="hynixChartLoading" style="display: none;">네이버 시세 불러오는 중...</div>
+                <svg class="sparkline sparkline-glow" id="hynixSparkline" viewBox="0 0 300 100">
                     <defs>
                         <linearGradient id="hynixAreaGrad" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="0%" stop-color="var(--color-up)" stop-opacity="0.25"/>
@@ -644,45 +678,57 @@
                     <path class="line" id="hynixLinePath" stroke="var(--color-up)" d=""></path>
                 </svg>
             </div>
-
-            <!-- History Section -->
-            <div class="history-section">
-                <div class="history-title">
-                    <span>최근 3일 종가</span>
-                    <span>종가 (전일대비)</span>
-                </div>
-                <div class="history-list">
-                    <div class="history-row">
-                        <span class="history-date">6월 23일 (화)</span>
-                        <div class="history-price-group">
-                            <span class="history-price">2,555,000원</span>
-                            <span class="history-diff down">▼ 12.46%</span>
-                        </div>
-                    </div>
-                    <div class="history-row">
-                        <span class="history-date">6월 22일 (월)</span>
-                        <div class="history-price-group">
-                            <span class="history-price">2,919,000원</span>
-                            <span class="history-diff up">▲ 5.61%</span>
-                        </div>
-                    </div>
-                    <div class="history-row">
-                        <span class="history-date">6월 19일 (금)</span>
-                        <div class="history-price-group">
-                            <span class="history-price">2,764,000원</span>
-                            <span class="history-diff up">▲ 2.12%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
+    </div>
+
+    <!-- Analysis Panel (요구사항 3번) -->
+    <div class="analysis-card">
+        <h2 class="analysis-title">🔍 반도체 주가 등락원인 심층 분석 요약</h2>
+        <div class="analysis-grid">
+            
+            <!-- 뉴스 기사 분석 -->
+            <div class="analysis-box">
+                <div class="analysis-box-header news">
+                    📰 뉴스 기사 분석 요약
+                </div>
+                <ul class="analysis-bullets">
+                    <li>금리 인상 경계감에 따른 시장 불안: 미 연준(Fed)의 추가 금리 인상 발언 및 고물가 우려로 반도체 기술주 중심의 강력한 조정 압력 발생<span class="source-tag">출처: 경제지 종합</span></li>
+                    <li>MSCI 선진지수 불확실성 및 기술적 과열: 급등에 따른 차익 실현 욕구와 수급 충격으로 단기 하락폭 심화<span class="source-tag">출처: 연합뉴스 보도</span></li>
+                    <li>자사주 매입 및 HBM 펀더멘털 견고: 삼성전자의 90조 원 규모 자사주 매입 기대감과 SK하이닉스의 HBM 공급 부족 사이클 유지로 강한 매수 지지 형성<span class="source-tag">출처: 증권가 리포트</span></li>
+                </ul>
+            </div>
+
+            <!-- 네이버 주식 토론방 분석 -->
+            <div class="analysis-box">
+                <div class="analysis-box-header board">
+                    💬 네이버 주식 토론방 분석 요약
+                </div>
+                <ul class="analysis-bullets">
+                    <li>삼성전자 토론방 (code=005930): 폭락장에서 패닉 매도한 주주들의 뒤늦은 후회와 허탈감 대거 분출. 성과급의 자사주 지급 합의 소식과 90조 자사주 매입 루머를 호재로 기대하는 여론 급부상<span class="source-tag">출처: 삼성전자 종목토론실</span></li>
+                    <li>SK하이닉스 토론방 (code=000660): 시총 1위 달성 직후 12% 급락과 24일 반등에 "롤러코스터 무빙에 정신이 없다"는 피로감 표출. 목표주가 420만 원 상향 정보 공유와 장기 투자를 촉구하는 장투파와 단기 차익 실현파 대립<span class="source-tag">출처: SK하이닉스 종목토론실</span></li>
+                </ul>
+            </div>
+
+            <!-- SNS 및 커뮤니티 분석 -->
+            <div class="analysis-box">
+                <div class="analysis-box-header sns">
+                    📱 SNS 및 커뮤니티 분석 요약
+                </div>
+                <ul class="analysis-bullets">
+                    <li>'삼전닉스' 커플링 밈(Meme): 두 종목이 시총 1위 자리를 두고 엎치락뒤치락하며 동반 폭등락을 이어가자 '삼전닉스 왕좌의 게임' 등 냉소 섞인 풍자 밈 공유<span class="source-tag">출처: 네이버 카페/블로그</span></li>
+                    <li>'줍줍' 저점 매수 인증 릴레이: 주가 폭락을 절호의 매수 기회로 삼은 소위 '개미'들이 최저점 매수(줍줍) 인증을 공유하며 반도체 성장 모멘텀 신뢰 여론 형성<span class="source-tag">출처: X/트위터</span></li>
+                    <li>파생 상품 리스크 경고: 반도체 1배수/레버리지 ETF 등 고위험 파생 상품의 강제 청산(반대매매) 우려가 현실화됨에 따라 무리한 빚투 경계 목소리 확산<span class="source-tag">출처: 재테크 인플루언서 피드</span></li>
+                </ul>
+            </div>
+
+        </div>
     </div>
 
     <!-- Footer -->
     <footer>
         <p>© 2026 SemiTracker Dashboard. All Rights Reserved.</p>
-        <p class="footer-note">* 본 화면의 데이터는 2026년 6월 24일 한국 거래소 마감 및 이전 일자 종가 데이터를 바탕으로 하고 있으며, 실시간 가격은 모의 Ticking 데이터입니다.</p>
+        <p class="footer-note">* 본 대시보드는 네이버 증권(finance.naver.com 및 api.stock.naver.com)의 실제 데이터를 연동하여 제공합니다.</p>
     </footer>
 </div>
 
@@ -692,40 +738,64 @@
         sec: {
             name: "삼성전자",
             ticker: "005930",
-            current: 336000,
-            basePrice: 310000, // June 23 Close
-            history: [
-                { date: "6월 19일", price: 354000, changeRate: 4.56 },
-                { date: "6월 22일", price: 353500, changeRate: -0.14 },
-                { date: "6월 23일", price: 310000, changeRate: -12.30 }
+            current: 340500,
+            basePrice: 310000,
+            activeTab: '10m', // '10m' or 'daily'
+            // Fallback mock history data
+            dailyHistory: [
+                { date: "6월 19일", price: 354000 },
+                { date: "6월 22일", price: 353500 },
+                { date: "6월 23일", price: 310000 },
+                { date: "6월 24일", price: 340500 }
             ],
+            minutePoints: [],
             elementPrice: document.getElementById('secPrice'),
             elementBadge: document.getElementById('secChangeBadge'),
             elementArrow: document.getElementById('secChangeArrow'),
             elementVal: document.getElementById('secChangeVal'),
             linePath: document.getElementById('secLinePath'),
             areaPath: document.getElementById('secAreaPath'),
-            sparkline: document.getElementById('secSparkline')
+            sparkline: document.getElementById('secSparkline'),
+            loading: document.getElementById('secChartLoading')
         },
         hynix: {
             name: "SK하이닉스",
             ticker: "000660",
-            current: 2617000,
-            basePrice: 2555000, // June 23 Close
-            history: [
-                { date: "6월 19일", price: 2764000, changeRate: 2.12 },
-                { date: "6월 22일", price: 2919000, changeRate: 5.61 },
-                { date: "6월 23일", price: 2555000, changeRate: -12.46 }
+            current: 2580000,
+            basePrice: 2555000,
+            activeTab: '10m',
+            dailyHistory: [
+                { date: "6월 19일", price: 2764000 },
+                { date: "6월 22일", price: 2919000 },
+                { date: "6월 23일", price: 2555000 },
+                { date: "6월 24일", price: 2580000 }
             ],
+            minutePoints: [],
             elementPrice: document.getElementById('hynixPrice'),
             elementBadge: document.getElementById('hynixChangeBadge'),
             elementArrow: document.getElementById('hynixChangeArrow'),
             elementVal: document.getElementById('hynixChangeVal'),
             linePath: document.getElementById('hynixLinePath'),
             areaPath: document.getElementById('hynixAreaPath'),
-            sparkline: document.getElementById('hynixSparkline')
+            sparkline: document.getElementById('hynixSparkline'),
+            loading: document.getElementById('hynixChartLoading')
         }
     };
+
+    // Keep base time ticking
+    function startClock() {
+        const timeEl = document.getElementById('baseTime');
+        setInterval(() => {
+            const now = new Date();
+            const format = now.getFullYear() + '-' +
+                String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                String(now.getDate()).padStart(2, '0') + ' ' +
+                String(now.getHours()).padStart(2, '0') + ':' +
+                String(now.getMinutes()).padStart(2, '0') + ':' +
+                String(now.getSeconds()).padStart(2, '0');
+            timeEl.textContent = format;
+        }, 1000);
+    }
 
     // Color theme management
     function setTheme(theme) {
@@ -738,17 +808,11 @@
             container.setAttribute('data-switch', 'right');
             btnKR.classList.remove('active');
             btnGlobal.classList.add('active');
-            document.querySelectorAll('.sparkline-glow').forEach(el => {
-                el.style.setProperty('--glow-color', 'var(--color-up-glow)');
-            });
         } else {
             document.documentElement.removeAttribute('data-theme');
             container.setAttribute('data-switch', 'left');
             btnKR.classList.add('active');
             btnGlobal.classList.remove('active');
-            document.querySelectorAll('.sparkline-glow').forEach(el => {
-                el.style.setProperty('--glow-color', 'var(--color-up-glow)');
-            });
         }
         
         // Re-render sparklines to ensure colors are updated correctly
@@ -761,18 +825,44 @@
         return new Intl.NumberFormat('ko-KR').format(Math.round(value));
     }
 
+    // Tab switcher
+    function switchChartTab(stockKey, tab) {
+        const stock = stockData[stockKey];
+        stock.activeTab = tab;
+
+        const tab10m = document.getElementById(stockKey + 'Tab10m');
+        const tabDaily = document.getElementById(stockKey + 'TabDaily');
+
+        if (tab === '10m') {
+            tab10m.classList.add('active');
+            tabDaily.classList.remove('active');
+        } else {
+            tab10m.classList.remove('active');
+            tabDaily.classList.add('active');
+        }
+
+        renderSparkline(stockKey);
+    }
+
     // Render Sparkline SVG dynamically
     function renderSparkline(stockKey) {
         const stock = stockData[stockKey];
-        // Combine history + current to build chart points
-        const points = [...stock.history.map(h => h.price), stock.current];
-        
-        const min = Math.min(...points) * 0.98;
-        const max = Math.max(...points) * 1.02;
-        const range = max - min;
+        let points = [];
+
+        if (stock.activeTab === '10m' && stock.minutePoints.length > 0) {
+            points = stock.minutePoints;
+        } else {
+            points = stock.dailyHistory.map(h => h.price);
+        }
+
+        if (points.length === 0) return;
+
+        const min = Math.min(...points) * 0.995;
+        const max = Math.max(...points) * 1.005;
+        const range = max - min === 0 ? 1 : max - min;
         
         const width = 300;
-        const height = 90;
+        const height = 100;
         const padding = 10;
         
         const svgPoints = points.map((p, index) => {
@@ -784,7 +874,6 @@
         // Create line path
         let dLine = `M ${svgPoints[0].x} ${svgPoints[0].y}`;
         for (let i = 1; i < svgPoints.length; i++) {
-            // Smooth curve
             const cpX1 = svgPoints[i-1].x + (svgPoints[i].x - svgPoints[i-1].x) / 2;
             const cpY1 = svgPoints[i-1].y;
             const cpX2 = cpX1;
@@ -799,7 +888,7 @@
         stock.areaPath.setAttribute('d', dArea);
 
         // Determine path color based on trend
-        const isUp = stock.current >= stock.basePrice;
+        const isUp = points[points.length - 1] >= points[0];
         const strokeColor = isUp ? 'var(--color-up)' : 'var(--color-down)';
         
         stock.linePath.setAttribute('stroke', strokeColor);
@@ -807,12 +896,8 @@
         // Update gradient stop color dynamically
         const gradId = stockKey === 'sec' ? 'secAreaGrad' : 'hynixAreaGrad';
         const stops = document.querySelectorAll(`#${gradId} stop`);
-        stops.forEach((stop, index) => {
-            if (index === 0) {
-                stop.setAttribute('stop-color', strokeColor);
-            } else {
-                stop.setAttribute('stop-color', strokeColor);
-            }
+        stops.forEach((stop) => {
+            stop.setAttribute('stop-color', strokeColor);
         });
 
         // Set CSS property for custom filter drop shadow
@@ -820,86 +905,142 @@
         stock.sparkline.style.setProperty('--glow-color', glowColor);
     }
 
-    // Update stock UI
-    function updateStockUI(stockKey, isTicking = false) {
+    // Helper for multi-proxy AJAX fetching
+    async function fetchWithProxy(targetUrl) {
+        const proxies = [
+            // Direct request first
+            targetUrl,
+            // allorigins.win (Raw Mode)
+            `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
+            // codetabs.com
+            `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`
+        ];
+
+        for (let i = 0; i < proxies.length; i++) {
+            try {
+                const response = await fetch(proxies[i]);
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (err) {
+                console.warn(`Proxy ${i} failed, attempting next...`, err);
+            }
+        }
+        throw new Error("All fetching methods failed due to CORS or networking issues.");
+    }
+
+    // Fetch real-time price & changes from Naver Realtime API
+    async function fetchRealtimePrices() {
+        const url = 'https://polling.finance.naver.com/api/realtime?query=SERVICE_ITEM:005930,000660';
+        try {
+            const data = await fetchWithProxy(url);
+            if (data && data.resultCode === 'success') {
+                const datas = data.result.areas[0].datas;
+                datas.forEach(item => {
+                    const key = item.cd === '005930' ? 'sec' : 'hynix';
+                    const stock = stockData[key];
+
+                    stock.current = item.nv;
+                    stock.basePrice = item.pcv;
+
+                    // Update Price Value
+                    stock.elementPrice.textContent = formatCurrency(stock.current);
+
+                    // Update badge styles & text
+                    const diff = item.cv;
+                    const diffRate = item.cr;
+                    const isUp = item.rf === '2' || item.rf === '3'; // RISING/UP_LIMIT
+
+                    if (isUp) {
+                        stock.elementBadge.className = "price-change-badge up";
+                        stock.elementArrow.textContent = "▲";
+                        stock.elementVal.textContent = `${formatCurrency(diff)} (+${diffRate.toFixed(2)}%)`;
+                    } else if (item.rf === '4' || item.rf === '5') { // FALLING/DOWN_LIMIT
+                        stock.elementBadge.className = "price-change-badge down";
+                        stock.elementArrow.textContent = "▼";
+                        stock.elementVal.textContent = `${formatCurrency(Math.abs(diff))} (-${Math.abs(diffRate).toFixed(2)}%)`;
+                    } else {
+                        stock.elementBadge.className = "price-change-badge flat";
+                        stock.elementArrow.textContent = "─";
+                        stock.elementVal.textContent = `0 (0.00%)`;
+                    }
+
+                    // Update daily history last element to stay fresh
+                    stock.dailyHistory[stock.dailyHistory.length - 1].price = stock.current;
+                });
+            }
+        } catch (e) {
+            console.error("Failed to load real-time prices:", e);
+        }
+    }
+
+    // Fetch 10-minute/minute chart data from Naver Chart API
+    async function fetchChartData(stockKey) {
         const stock = stockData[stockKey];
-        const diff = stock.current - stock.basePrice;
-        const diffRate = (diff / stock.basePrice) * 100;
-        const isUp = diff >= 0;
+        stock.loading.style.display = 'flex';
+        
+        const url = `https://api.stock.naver.com/chart/domestic/item/${stock.ticker}/minute?periodType=day&range=1`;
+        try {
+            const data = await fetchWithProxy(url);
+            if (Array.isArray(data)) {
+                // Filter the points to 10-minute intervals
+                // Sample every 10th item for smooth spacing
+                const filtered = data.filter((item, index) => {
+                    return (index % 10 === 0) || (index === data.length - 1);
+                });
 
-        // Apply temporary flash animations on tick updates
-        if (isTicking) {
-            const classToAdd = diff >= 0 ? 'price-flash-up' : 'price-flash-down';
-            stock.elementPrice.classList.remove('price-flash-up', 'price-flash-down');
-            void stock.elementPrice.offsetWidth; // Trigger reflow
-            stock.elementPrice.classList.add(classToAdd);
+                stock.minutePoints = filtered.map(item => item.currentPrice);
+                
+                // If minute points were gathered successfully, render it
+                renderSparkline(stockKey);
+            }
+        } catch (e) {
+            console.error(`Failed to load chart data for ${stockKey}:`, e);
+        } finally {
+            stock.loading.style.display = 'none';
         }
-
-        // Update Price Value
-        stock.elementPrice.textContent = formatCurrency(stock.current);
-
-        // Update badge styles & text
-        if (isUp) {
-            stock.elementBadge.className = "price-change-badge up";
-            stock.elementArrow.textContent = "▲";
-            stock.elementVal.textContent = `${formatCurrency(diff)} (+${diffRate.toFixed(2)}%)`;
-        } else {
-            stock.elementBadge.className = "price-change-badge down";
-            stock.elementArrow.textContent = "▼";
-            stock.elementVal.textContent = `${formatCurrency(Math.abs(diff))} (-${Math.abs(diffRate).toFixed(2)}%)`;
-        }
-
-        // Re-render sparkline
-        renderSparkline(stockKey);
     }
 
     // Refresh simulation
     let isRefreshing = false;
-    function triggerRefresh() {
+    async function triggerRefresh() {
         if (isRefreshing) return;
         isRefreshing = true;
 
         const refreshIcon = document.getElementById('refreshIcon');
         refreshIcon.classList.add('icon-spin');
 
-        // Simulate network latency (500ms)
-        setTimeout(() => {
-            // Apply a slightly larger fluctuation for refresh
-            Object.keys(stockData).forEach(key => {
-                const stock = stockData[key];
-                const changePercent = (Math.random() - 0.45) * 0.04; // -1.8% to +2.2%
-                stock.current = Math.round(stock.current * (1 + changePercent));
-                updateStockUI(key, true);
-            });
+        // Reload data from Naver
+        await Promise.all([
+            fetchRealtimePrices(),
+            fetchChartData('sec'),
+            fetchChartData('hynix')
+        ]);
 
-            refreshIcon.classList.remove('icon-spin');
-            isRefreshing = false;
-        }, 600);
-    }
-
-    // Real-time ticking simulation (runs every 3-5 seconds to feel dynamic and alive)
-    function startSimulatedTicking() {
-        setInterval(() => {
-            // Randomly pick one stock to tick
-            const key = Math.random() > 0.5 ? 'sec' : 'hynix';
-            const stock = stockData[key];
-            
-            // Minor live fluctuation (-0.2% to +0.25%)
-            const fluctuation = (Math.random() - 0.45) * 0.003;
-            stock.current = Math.round(stock.current * (1 + fluctuation));
-            
-            updateStockUI(key, true);
-        }, 4000);
+        refreshIcon.classList.remove('icon-spin');
+        isRefreshing = false;
     }
 
     // Initialize Page
-    window.addEventListener('DOMContentLoaded', () => {
-        // Initial draw
-        updateStockUI('sec');
-        updateStockUI('hynix');
+    window.addEventListener('DOMContentLoaded', async () => {
+        // Start live clock
+        startClock();
+
+        // Initial fetch from Naver Stock APIs
+        await fetchRealtimePrices();
+        await fetchChartData('sec');
+        await fetchChartData('hynix');
         
-        // Start live simulated ticking
-        startSimulatedTicking();
+        // Initial render for fallback safety
+        renderSparkline('sec');
+        renderSparkline('hynix');
+
+        // Set interval to sync with Naver every 10 seconds
+        setInterval(async () => {
+            await fetchRealtimePrices();
+            if (stockData.sec.activeTab === '10m') renderSparkline('sec');
+            if (stockData.hynix.activeTab === '10m') renderSparkline('hynix');
+        }, 10000);
     });
 </script>
 </body>
